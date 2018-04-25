@@ -1,0 +1,125 @@
+{% extends '/templates/app.twig' %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="./css/index.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,500" rel="stylesheet">
+<div id="app">
+<div id="topContainer">
+    <div id="headerContainer">
+        <h1 align="center" id = "mainTitle">Dashboard</h1>
+        <img src="./images/hugeIcon.png" height="62" width="62" id="icon">
+
+    </div>
+    <div id="abouttheapp">
+    <a href="https://github.com/austinbailey1114/LiftAppSite" id="aboutLink"><h3>About</h3></a>
+    <a href="https://github.com/austinbailey1114/iOS" id="appLink"><h3>The App</h3></a>
+    </div>
+    <div id="linksContainer">
+        <div class="dropdown">
+            <button v-on:click="toggleDropDown()" class="dropButton" style="display: none"> <?php echo $name ?></button>
+            <div class="dropDownContent" v-if="showDropDown">
+                <a href="./logout"><h3 id="accountLink">Log Out</h3></a>
+                <a href="./reset"><h3 id="passwordLink">Settings</h3></a>
+            </div>
+        </div>
+        <img src="./images/userIcon.png" height="52" width="52" id="userIcon">
+    </div>
+</div>
+<div id="dashboardDiv">
+    <div id="container">
+        <div class="lift">
+            <div>
+                <h2 align="center" id="liftProgressTitle">Your Lift Progress</h2>
+                <form id="lifttableform" action="lifts/view/asTable">
+                    <a id="lifttable" href="lifts/view/asTable">View as Table</a>
+                </form>
+            </div>
+            <select name="chooseLift" id="chooseLiftToDisplay" v-on:change="updateLiftChart()">
+                {% for type in lifttypes %}
+                    <option value="{{ type.name }}">{{ type.name }}</option>
+                {% endfor %}
+            </select>
+            <div id ="graphDiv">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <div id="newLiftContainer">
+            <form action="./lifts/addLift" method="post">
+                <div id="addNewWeight">
+                    <p id="promptWeight">Weight: </p>
+                    <input type="text" name="weight" id="weightInput" placeholder="pounds" autocomplete="off" v-on:input="checkInput($('#weightInput').val(), 'promptWeight', 'Weight: ')">
+                </div>
+                <div id="addNewReps">
+                    <p id="promptReps">Reps:</p>
+                    <input type="text" name="reps" id="repsInput" placeholder="repetitions" autocomplete="off" v-on:input="checkInput($('#repsInput').val(), 'promptReps', 'Reps: ')">
+                </div>
+                <div id="addNewType">
+                    <p id="promptType">Type:</p>
+                    <div id="typeSelectDiv">
+                        <select id="lifttypes" name='lifttypes' v-on:change="fillType()" v-if="!newType">
+                            {% for type in lifttypes %}
+                                <option value="{{ type.name }}">{{ type.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div v-if="newType" id="newType" style="display: none">
+                            <button id='tempButton' type=button v-on:click='unfillType()'>
+                                <img src='./images/xicon.png' height='15' width='15' style='margin-right: 5px;'>
+                            </button>
+                            <input type='text' name='type' id='typeInput' placeholder='new type' autocomplete='off'>
+                        </div>
+                    </div>
+                </div>
+                <div id="addNewDate">
+                    <p id="promptDate">Date:</p>
+                    <input type="test" name="date" id="dateInput" placeholder="leave blank if today" autocomplete="off">
+                </div>
+                <button id="saveLift">Save</button>
+            </form>
+        </div>
+    </div>
+    <div class="nutrition">
+        <div id="showData">
+        </div>
+        <div id="newFood">
+            <form id="searchFood" action="./foods/search" method="post">
+                <div id="enterfood">
+                    <h2 id="newFoodTitle">Search Foods: </h2>
+                    <input type="text" name="searchField" id="searchInput" placeholder="Food, brand, etc.">
+                </div>
+                <div id="foodbutton">
+                    <button id="search">Search</button>
+                </div>
+            </form>
+        </div>
+        <div id="foodHistoryContainer">
+            <h3>Food Today</h3>
+            <div id="foodHistory">
+            </div>
+        </div>
+    </div>
+    <div id="weightDiv">
+        <div class="bodyweightGraph">
+            <h2 id="bodyweighttabletitle">Bodyweight</h2>
+            <a id="bodyweighttable" href="bodyweights/view/asTable">View as Table</a>
+            <div id ="bodyweightGraphDiv">
+                <canvas id="bodyweightChart"></canvas>
+            </div>
+        </div>
+        <div id="newWeight">
+            <form action="./bodyweights/addBodyweight" method="post">
+                <div id="promptBodyweight">
+                    <h2 id="weightTitle">Update: </h2>
+                    <input type="text" name="updateWeight" id="newBodyWeight" placeholder="pounds" v-on:input="checkInput($('#newBodyWeight').val(), 'weightTitle', 'Bodyweight: ')">
+                </div>
+                <div id="addBodyweightButtonDiv">
+                    <button id="add">Update</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+{% endblock %}
