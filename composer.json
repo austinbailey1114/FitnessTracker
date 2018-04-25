@@ -1,0 +1,14 @@
+{
+    "require": {
+        "slim/slim": "^3.0",
+        "vlucas/phpdotenv": "^2.4",
+        "slim/php-view": "^2.2",
+        "twig/twig": "^2.4",
+        "illuminate/database": "^5.6"
+    },
+    "autoload": {
+    	"psr-4": {
+    		"Carbon\\": "app"
+    	}
+    }
+}

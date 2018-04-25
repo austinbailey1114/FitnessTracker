@@ -1,0 +1,88 @@
+body {
+	font-family: 'Roboto' !important;
+	margin:0;
+	padding: 0;
+	background-color: #fAfAfA;
+	text-align: left;
+}
+
+h1 {
+	font-weight: 200;
+	font-size: 27px;
+}
+
+input {
+	padding:5px 15px; 
+    border:2px solid #ccc; 
+    width: 200px;
+    margin: auto;
+    text-align: center;
+    border: 1px solid #DCDCDC;
+    background-color: white;
+    border-radius: 5px;
+    height: 50px;
+    width: 100%;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-size: 15px;
+  font-weight: 200;
+}
+
+a {
+  font-family: 'Roboto', sans-serif;
+  color: #E74C3C;
+  text-decoration: none;
+  text-align: left;
+  margin-top: 30px;
+  line-height: 0px;
+  font-weight: 200;
+  line-height: 85px;
+}
+
+button {
+	color: #E74C3C;
+  height: 100%;
+  width: 33%;
+  border: 0px solid #DCDCDC;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 50px;
+  border: 1px solid #DCDCDC;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+#mainDiv {
+	width: 400px;
+	height: 250px;
+	text-align: left;
+	margin: auto;
+	margin-top: 15%;
+	border-radius: 10px;
+}
+
+#usernameInput, #passwordInput, #login {
+	display: block;
+	margin-top: 30px;
+
+}
+
+#login, #createAccount {
+  display: inline-block;
+}
+
+#login {
+  float: left;
+}
+
+#createAccount {
+  float: right;
+}
