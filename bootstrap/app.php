@@ -14,10 +14,10 @@ $app = new \Slim\App([
 	    'addContentLengthHeader' => false,
 		'db' => [
 			'driver' => 'mysql',
-			'host' => 'localhost',
-			'database' => 'joyce',
-			'username' => 'root',
-			'password' => '',
+			'host' => getenv('DB_HOST'),
+			'database' => getenv('DB_NAME'),
+			'username' => getenv('DB_USER'),
+			'password' => getenv('DB_PASS'),
 			'collation' => 'latin1_swedish_ci',
 			'prefix' => ''
 		]
@@ -25,13 +25,37 @@ $app = new \Slim\App([
 ]);
 
 $container = $app->getContainer();
+//set up eloquent
+$capsule = new \Illuminate\Database\Capsule\Manager;
+$capsule->addConnection($container['settings']['db']);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+//Add Db to container
+$container['db'] = function ($container) use ($capsule) {
+	return $capsule;
+};
 
-$container['LiftController'] = function($container) {
-	return new \Carbon\Controllers\LiftController($container);
+$container['auth'] = function($container) {
+	return new \Carbon\Auth\Auth;
 };
 
 $container['view'] = function ($container) {
-    return new \Slim\Views\PhpRenderer('../resources/views/');
+	$view = new \Slim\Views\Twig(__DIR__ . '/../resources/views', [
+		'cache' => false
+	]);
+	$view->addExtension(new \Slim\Views\TwigExtension(
+		$container->router,
+		$container->request->getUri()
+	));
+	$view->getEnvironment()->addGlobal('auth', [
+		'check' => $container->auth->check(),
+		'user' => $container->auth->user()
+	]);
+	return $view;
+};
+
+$container['LiftController'] = function($container) {
+	return new \Carbon\Controllers\LiftController($container);
 };
 
 $container['DashboardController'] = function($container) {

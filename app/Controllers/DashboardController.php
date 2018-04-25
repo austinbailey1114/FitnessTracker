@@ -14,7 +14,7 @@ class DashboardController extends Controller {
 		return $this->view->render($response, 'index.php');
 	}
 	public function login($request, $response) {
-		return $this->view->render($response, 'login.php');
+		return $this->view->render($response, 'login.twig');
 	}
 	public function verify($request, $response) {
 		$data = $request->getParsedBody();

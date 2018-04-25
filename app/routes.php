@@ -1,44 +1,48 @@
 <?php
+use Carbon\Middleware\AuthMiddleware;
 
-$app->group('/', function() {
-	$this->get('', 'DashboardController:index');
-	$this->get('login', 'DashboardController:login');
-	$this->post('verify', 'DashboardController:verify');
-	$this->get('logout', 'DashboardController:logout');
-	$this->get('createAccount', 'DashboardController:newUser');
-	$this->get('reset', 'DashboardController:reset');
-	$this->get('resetPassword', 'UserController:resetPassword');
-});
+$app->group('', function() {
+	$this->group('/', function() {
+		$this->get('home', 'DashboardController:index');
+		$this->post('verify', 'DashboardController:verify');
+		$this->get('logout', 'DashboardController:logout');
+		$this->get('createAccount', 'DashboardController:newUser');
+		$this->get('reset', 'DashboardController:reset');
+		$this->get('resetPassword', 'UserController:resetPassword');
+	});
 
-$app->group('/lifts', function() {
-	//app pages
-	$this->get('/view/asTable', 'LiftController:showLiftTable');
-	$this->post('/addLift', 'LiftController:addLift');
-	$this->get('/deleteLift/{id}', 'LiftController:deleteLiftFromTable');
-});
+	$this->group('/lifts', function() {
+		//app pages
+		$this->get('/view/asTable', 'LiftController:showLiftTable');
+		$this->post('/addLift', 'LiftController:addLift');
+		$this->get('/deleteLift/{id}', 'LiftController:deleteLiftFromTable');
+	});
 
-$app->group('/bodyweights', function() {
-	//app pages
-	$this->get('/view/asTable', 'BodyweightController:showBodyweightTable');
-	$this->post('/addBodyweight', 'BodyweightController:addBodyweight');
-	$this->get('/deleteBodyweight/{id}', 'BodyweightController:deleteBodyweightFromTable');
-});
+	$this->group('/bodyweights', function() {
+		//app pages
+		$this->get('/view/asTable', 'BodyweightController:showBodyweightTable');
+		$this->post('/addBodyweight', 'BodyweightController:addBodyweight');
+		$this->get('/deleteBodyweight/{id}', 'BodyweightController:deleteBodyweightFromTable');
+	});
 
-$app->group('/lifttypes', function() {
-	//app pages
-	//probably none
-});
+	$this->group('/lifttypes', function() {
+		//app pages
+		//probably none
+	});
 
-$app->group('/foods', function() {
-	$this->get('/{id}', 'FoodController:getFoods');
-	$this->post('/search', 'FoodController:searchFoods');
-	$this->get('/addFoodToHistory/{id}', 'FoodController:addFoodtoHistory');
-});
+	$this->group('/foods', function() {
+		$this->get('/{id}', 'FoodController:getFoods');
+		$this->post('/search', 'FoodController:searchFoods');
+		$this->get('/addFoodToHistory/{id}', 'FoodController:addFoodtoHistory');
+	});
 
-$app->group('/users', function() {
-	$this->post('/checkLogin', 'UserController:checkLogin');
-	$this->post('/addUser', 'UserController:addUser');
-});
+	$this->group('/users', function() {
+		$this->post('/checkLogin', 'UserController:checkLogin');
+		$this->post('/addUser', 'UserController:addUser');
+	});
+})->add(new AuthMiddleware($container));
+
+$app->get('/login', 'DashboardController:login')->setName('auth.signin');
 
 $app->group('/api', function() {
 	$this->group('/lifts', function() {

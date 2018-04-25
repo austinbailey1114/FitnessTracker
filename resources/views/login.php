@@ -18,7 +18,7 @@
 			echo "<h1>Sign in to LiftApp</h1>";
 		}
 		?>
-		<form action="./verify" method="post">
+		<form action="{{ path_for('auth.signin') }}" method="post">
 			<input type="text" name="username" id="usernameInput" placeholder="Username">
 			<input type="password" name="password" id="passwordInput" placeholder="Password">
 			<button id="login">Login</button>
@@ -40,12 +40,3 @@
 
 </script>
 </html>
-
-
-
-
-
-
-
-
-
