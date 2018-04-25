@@ -17,7 +17,7 @@ $app = new \Slim\App([
 			'host' => getenv('DB_HOST'),
 			'database' => getenv('DB_NAME'),
 			'username' => getenv('DB_USER'),
-			'password' => getenv('DB_PASS'),
+			'password' => getenv('DB_PASSWORD'),
 			'collation' => 'latin1_swedish_ci',
 			'prefix' => ''
 		]
@@ -52,6 +52,10 @@ $container['view'] = function ($container) {
 		'user' => $container->auth->user()
 	]);
 	return $view;
+};
+
+$container['AuthController'] = function($container) {
+	return new \Carbon\Controllers\AuthController($container);
 };
 
 $container['LiftController'] = function($container) {

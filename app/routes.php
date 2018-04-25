@@ -3,7 +3,7 @@ use Carbon\Middleware\AuthMiddleware;
 
 $app->group('', function() {
 	$this->group('/', function() {
-		$this->get('home', 'DashboardController:index');
+		$this->get('home', 'DashboardController:index')->setName('home');
 		$this->post('verify', 'DashboardController:verify');
 		$this->get('logout', 'DashboardController:logout');
 		$this->get('createAccount', 'DashboardController:newUser');
@@ -42,7 +42,8 @@ $app->group('', function() {
 	});
 })->add(new AuthMiddleware($container));
 
-$app->get('/login', 'DashboardController:login')->setName('auth.signin');
+$app->get('/login', 'AuthController:getSignIn')->setName('auth.signin');
+$app->post('/login', 'AuthController:postSignIn')->setName('auth.signin');
 
 $app->group('/api', function() {
 	$this->group('/lifts', function() {

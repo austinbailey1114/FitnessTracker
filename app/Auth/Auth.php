@@ -13,9 +13,9 @@ class Auth
     {
         return isset($_SESSION['user']);
     }
-    public function attempt($email, $password)
+    public function attempt($username, $password)
     {
-        $user = User::where('email', $email)->first();
+        $user = User::where('username', $username)->first();
         if (!$user) {
             return false;
         }
