@@ -21,7 +21,7 @@ $app->group('', function() {
 	$this->group('/bodyweights', function() {
 		//app pages
 		$this->get('/view/asTable', 'BodyweightController:showBodyweightTable');
-		$this->post('/addBodyweight', 'BodyweightController:addBodyweight');
+		$this->post('/addBodyweight', 'BodyweightController:postBodyweight')->setName('bodyweight.post');
 		$this->get('/deleteBodyweight/{id}', 'BodyweightController:deleteBodyweightFromTable');
 	});
 

@@ -1,10 +1,9 @@
 <?php
 
 namespace Carbon\Controllers;
+use Carbon\Models\Bodyweight;
 
 class BodyweightController extends Controller {
-
-	//api
 	public function getBodyweights($request, $response, $args) {
 		$query = new Query();
 
@@ -14,25 +13,16 @@ class BodyweightController extends Controller {
 	}
 
 	public function postBodyweight($request, $response) {
-		$data = $request->getParsedBody();
+		$date = strtotime('today midnight');
+		$date = date("Y-m-d H:i:s", $date);
 
-		$query = new Query();
+		Bodyweight::create([
+			'user' => $this->auth->user()->id,
+			'date' => $date,
+			'weight' => $request->getParam('weight')
+		]);
 
-		if (isset($_SESSION['id'])) {
-			$id = $_SESSION['id'];
-		} else {
-			$id = $data['id'];
-		}
-
-		$result = $query->table('bodyweights')->insert(array('weight', 'user'), array($data['updateWeight'], $id))->execute();
-
-		if ($result) {
-			echo "New bodyweight added successfully";
-			return $response->withStatus(200);
-		} else {
-			echo "Unable to add bodyweight. Please ensure all variables are added correctly";
-			return $response->withStatus(400);
-		}
+		return $response->withRedirect($this->router->pathFor('home'));
 	}
 
 	public function deleteBodyweight($request, $response) {
@@ -77,9 +67,9 @@ class BodyweightController extends Controller {
 		} else {
 			$_SESSION['message'] = 'failed';
 		}
-		
+
 		return $response->withHeader('Location', '../');
-		
+
 	}
 
 	public function deleteBodyweightFromTable($request, $response, $args) {
@@ -100,6 +90,6 @@ class BodyweightController extends Controller {
 
 
 		return $response->withHeader('Location', '../../');
-		
+
 	}
 }

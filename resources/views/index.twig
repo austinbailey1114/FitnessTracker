@@ -105,10 +105,10 @@
             </div>
         </div>
         <div id="newWeight">
-            <form action="./bodyweights/addBodyweight" method="post">
+            <form action="{{ path_for('bodyweight.post') }}" method="post">
                 <div id="promptBodyweight">
                     <h2 id="weightTitle">Update: </h2>
-                    <input type="text" name="updateWeight" id="newBodyWeight" placeholder="pounds" v-on:input="checkInput($('#newBodyWeight').val(), 'weightTitle', 'Bodyweight: ')">
+                    <input type="text" name="weight" id="newBodyWeight" placeholder="pounds">
                 </div>
                 <div id="addBodyweightButtonDiv">
                     <button id="add">Update</button>
@@ -126,6 +126,24 @@
 <script type="text/javascript">
 
 var lifts = {{ lifts|json_encode|raw }};
+var bodyWeights = {{ bodyweights|json_encode|raw }}
+
+$('#chooseLiftToDisplay').change(function() {
+    buildLiftChart();
+});
+
+$('#lifttypes').change(function() {
+    if ($('#lifttypes').val() == 'new') {
+        $('#lifttypes').hide();
+        $('#newType').css('display', 'block');
+    }
+});
+
+$('#exitNewLift').click(function() {
+    $('#lifttypes').show();
+    $('#lifttypes').val('select')
+    $('#newType').css('display', 'none');
+});
 
 function buildLiftChart() {
     var type = $('#chooseLiftToDisplay').val();
@@ -135,11 +153,13 @@ function buildLiftChart() {
         //If the lift is of the selected type
         if(lifts[i].type == type) {
             if (xAxis.length > 0) {
+                //Find the index of the date of the current item
                 var index = xAxis.findIndex(function(element) {
                     return element == lifts[i].date;
                 });
+                // If the date already exists, check if the corresponding lift (in the y axis) needs to be updated
                 if (index != null) {
-                    console.log(index);
+                    // Only change the lift if the 1RM of the current index is larger
                     if (yAxis[index] < (lifts[i].weight * (1 + (lifts[i].reps  / 30)))) {
                         yAxis[index] = lifts[i].weight * (1 + (lifts[i].reps  / 30));
                     }
@@ -183,21 +203,45 @@ function buildLiftChart() {
     $('#myChart').hide().fadeIn(1000);
 }
 
-buildLiftChart();
-
-var titleString = $('#chooseLiftToDisplay').val();
-
-$('#lifttypes').change(function() {
-    if ($('#lifttypes').val() == 'new') {
-        $('#lifttypes').hide();
-        $('#newType').css('display', 'block');
+function buildWeightChart() {
+    var xAxis = [];
+    var yAxis = [];
+    for (var i = 0; i < bodyWeights.length; i++) {
+        xAxis.push(bodyWeights[i].date);
+        yAxis.push(bodyWeights[i].weight);
     }
-});
 
-$('#exitNewLift').click(function() {
-    $('#lifttypes').show();
-    $('#lifttypes').val('select')
-    $('#newType').css('display', 'none');
-})
+    var ctx = document.getElementById('bodyweightChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    	// The type of chart we want to create
+    	type: 'line',
+
+    	// The data for our dataset
+    	data: {
+    	    labels: xAxis,
+    	    datasets: [{
+    	        borderColor: 'rgb(231,76,60)',
+    	        backgroundColor: 'rgba(231,76,60,0.3',
+    	        fill: true,
+    	        pointBackgroundColor: 'rgb(231,76,60)',
+    	        data: yAxis,
+    	    }]
+    	},
+
+    	// Configuration options go here
+    	options: {
+    	    responsive: true,
+    	    maintainAspectRatio: false,
+    	    legend: {
+    	        display: false
+    	     },
+    	}
+    });
+}
+
+
+buildWeightChart();
+
+buildLiftChart();
 </script>
 {% endblock %}

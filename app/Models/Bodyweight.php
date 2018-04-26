@@ -9,6 +9,7 @@ class Bodyweight extends Model {
     protected $fillable = [
         'weight',
         'user',
+        'date'
     ];
 
 }
