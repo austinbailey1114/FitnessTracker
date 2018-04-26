@@ -1,13 +1,11 @@
 {% extends '/templates/app.twig' %}
 {% block content %}
 <link rel="stylesheet" type="text/css" href="./css/index.css">
-<link href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,500" rel="stylesheet">
 <div id="app">
 <div id="topContainer">
     <div id="headerContainer">
         <h1 align="center" id = "mainTitle">Dashboard</h1>
         <img src="./images/hugeIcon.png" height="62" width="62" id="icon">
-
     </div>
     <div id="abouttheapp">
     <a href="https://github.com/austinbailey1114/LiftAppSite" id="aboutLink"><h3>About</h3></a>
@@ -15,7 +13,7 @@
     </div>
     <div id="linksContainer">
         <div class="dropdown">
-            <button v-on:click="toggleDropDown()" class="dropButton" style="display: none"> <?php echo $name ?></button>
+            <button v-on:click="toggleDropDown()" class="dropButton" style="display: none">Hello</button>
             <div class="dropDownContent" v-if="showDropDown">
                 <a href="./logout"><h3 id="accountLink">Log Out</h3></a>
                 <a href="./reset"><h3 id="passwordLink">Settings</h3></a>
@@ -43,7 +41,7 @@
             </div>
         </div>
         <div id="newLiftContainer">
-            <form action="./lifts/addLift" method="post">
+            <form action="{{ path_for('lift.post') }}" method="post">
                 <div id="addNewWeight">
                     <p id="promptWeight">Weight: </p>
                     <input type="text" name="weight" id="weightInput" placeholder="pounds" autocomplete="off" v-on:input="checkInput($('#weightInput').val(), 'promptWeight', 'Weight: ')">
@@ -55,16 +53,18 @@
                 <div id="addNewType">
                     <p id="promptType">Type:</p>
                     <div id="typeSelectDiv">
-                        <select id="lifttypes" name='lifttypes' v-on:change="fillType()" v-if="!newType">
+                        <select id="lifttypes" name='liftType' v-on:change="fillType()">
+                            <option>-- Select Type--</option>
+                            <option value="new">New</option>
                             {% for type in lifttypes %}
                                 <option value="{{ type.name }}">{{ type.name }}</option>
                             {% endfor %}
                         </select>
-                        <div v-if="newType" id="newType" style="display: none">
+                        <div id="newType" style="display: none">
                             <button id='tempButton' type=button v-on:click='unfillType()'>
                                 <img src='./images/xicon.png' height='15' width='15' style='margin-right: 5px;'>
                             </button>
-                            <input type='text' name='type' id='typeInput' placeholder='new type' autocomplete='off'>
+                            <input type='text' name='newType' id='typeInput' placeholder='new type' autocomplete='off'>
                         </div>
                     </div>
                 </div>
@@ -122,4 +122,23 @@
 {% endblock %}
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="{{ base_url() }}/js/jquery.min.js"></script>
+<script type="text/javascript">
+
+var titleString = $('#chooseLiftToDisplay').val();
+
+console.log(titleString);
+var lifts = {{ lifts|json_encode|raw }};
+
+console.log(lifts);
+
+console.log(new Date(lifts[0].date).valueOf());
+
+$('#lifttypes').change(function() {
+    if ($('#lifttypes').val() == 'new') {
+        $('#lifttypes').hide();
+        $('#newType').css('display', 'block');
+    }
+});
+</script>
 {% endblock %}

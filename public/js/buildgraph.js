@@ -8,7 +8,7 @@ function buildliftChart() {
     catch(err) {
         titleString = "No Types";
     }
-    
+
 
     var xaxis = new Array();
     var yaxis = new Array();
@@ -29,11 +29,10 @@ function buildliftChart() {
                     yaxis.push(liftyaxis[i]);
                 }
             } catch(err) {
-                console.log("except reached");
                 xaxis.push(liftxaxis[i]);
                 yaxis.push(liftyaxis[i]);
             }
-            
+
         }
     }
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -70,11 +69,7 @@ function buildliftChart() {
 buildliftChart();
 
 function buildweightChart() {
-	
+
 }
 
 buildweightChart();
-
-
-
-

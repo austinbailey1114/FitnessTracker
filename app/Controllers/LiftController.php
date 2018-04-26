@@ -1,6 +1,8 @@
 <?php
 
 namespace Carbon\Controllers;
+use Carbon\Models\Lift;
+use Carbon\Models\LiftType;
 
 class LiftController extends Controller {
 	//api functions
@@ -12,28 +14,27 @@ class LiftController extends Controller {
 	}
 
 	public function postLift($request, $response) {
-		$data = $request->getParsedBody();
+		$lift = [
+			'weight' => $request->getParam('weight'),
+			'reps' => $request->getParam('reps'),
+			'date' => $request->getParam('date'),
+			'user' => $this->auth->user()->id,
+		];
 
-		$query = new Query();
-
-		//insert type into lift types if it does not exist
-		//NOTE: need to specify that it is a new type to work
-		if ($_POST['isNewType']) {
-			$inserted = $query->table('lifttypes')->insert(array('name', 'user'), array($data['type'], $data['id']))->execute();
+		// If it is a new type, add the lift with that type and create a new one
+		if ($request->getParam('newType') != "") {
+			$lift['type'] = $request->getParam('newType');
+			LiftType::create([
+				'name' => $request->getParam('newType'),
+				'user' => $this->auth->user()->id,
+			]);
 		} else {
-			$inserted = true;
+			$lift['type'] = $request->getParam('liftType');
 		}
 
-		//insert lift
-		$result = $query->table('lifts')->insert(array('weight', 'reps', 'type', 'user'), array($data['weight'], $data['reps'], $data['type'], $data['id']))->execute();
+		Lift::create($lift);
 
-		if ($result && $inserted) {
-			echo "New lift added successfully";
-			return $response->withStatus(200);
-		} else {
-			echo "Failed to add lift. Please ensure all variables are properly defined";
-			return $response->withStatus(400);
-		}
+		return $response->withRedirect($this->router->pathFor('home'));
 	}
 
 	public function deleteLift($request, $response) {
@@ -55,36 +56,6 @@ class LiftController extends Controller {
 	//app functions
 	public function showLiftTable($request, $response, $args) {
 		return $this->view->render($response, 'liftTable.php');
-	}
-
-	public function addLift($request, $response) {
-		$data = $request->getParsedBody();
-
-		if (isset($_POST['type'])) {
-		    $data['type'] = $_POST['type'];
-		    $data['isNewType'] = true;
-		} else {
-		    $data['type'] = $_POST['lifttypes'];
-		    $data['isNewType'] = false;
-		}
-
-		$data['id'] = $_SESSION['id'];
-
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, getenv('URL') . 'api/lifts/');
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-		$result = curl_exec($ch);
-
-		if ($result) {
-			$_SESSION['message'] = 'success';
-			$_SESSION['lift'] = $data['type'];
-		} else {
-			$_SESSION['message'] = 'failed';
-		}
-		return $response->withStatus(200)->withHeader('Location', '../');
 	}
 
 	public function deleteLiftFromTable($request, $response, $args) {

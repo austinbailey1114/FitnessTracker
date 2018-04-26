@@ -10,7 +10,8 @@ class Lift extends Model {
         'weight',
         'reps',
         'type',
-        'user'
+        'user',
+        'created_at'
     ];
 
 }
