@@ -54,14 +54,14 @@
                     <p id="promptType">Type:</p>
                     <div id="typeSelectDiv">
                         <select id="lifttypes" name='liftType' v-on:change="fillType()">
-                            <option>-- Select Type--</option>
+                            <option value="select">-- Select Type--</option>
                             <option value="new">New</option>
                             {% for type in lifttypes %}
                                 <option value="{{ type.name }}">{{ type.name }}</option>
                             {% endfor %}
                         </select>
                         <div id="newType" style="display: none">
-                            <button id='tempButton' type=button v-on:click='unfillType()'>
+                            <button id='exitNewLift' type=button v-on:click='unfillType()'>
                                 <img src='./images/xicon.png' height='15' width='15' style='margin-right: 5px;'>
                             </button>
                             <input type='text' name='newType' id='typeInput' placeholder='new type' autocomplete='off'>
@@ -70,7 +70,7 @@
                 </div>
                 <div id="addNewDate">
                     <p id="promptDate">Date:</p>
-                    <input type="test" name="date" id="dateInput" placeholder="leave blank if today" autocomplete="off">
+                    <input type="text" name="date" id="dateInput" placeholder="leave blank if today" autocomplete="off">
                 </div>
                 <button id="saveLift">Save</button>
             </form>
@@ -125,14 +125,67 @@
 <script src="{{ base_url() }}/js/jquery.min.js"></script>
 <script type="text/javascript">
 
-var titleString = $('#chooseLiftToDisplay').val();
-
-console.log(titleString);
 var lifts = {{ lifts|json_encode|raw }};
 
-console.log(lifts);
+function buildLiftChart() {
+    var type = $('#chooseLiftToDisplay').val();
+    var xAxis = [];
+    var yAxis = [];
+    for (var i = 0; i < lifts.length; i++) {
+        //If the lift is of the selected type
+        if(lifts[i].type == type) {
+            if (xAxis.length > 0) {
+                var index = xAxis.findIndex(function(element) {
+                    return element == lifts[i].date;
+                });
+                if (index != null) {
+                    console.log(index);
+                    if (yAxis[index] < (lifts[i].weight * (1 + (lifts[i].reps  / 30)))) {
+                        yAxis[index] = lifts[i].weight * (1 + (lifts[i].reps  / 30));
+                    }
+                }
+            } else {
+                xAxis.push(lifts[i].date);
+                yAxis.push(lifts[i].weight * (1 + (lifts[i].reps  / 30)));
+            }
 
-console.log(new Date(lifts[0].date).valueOf());
+        }
+    }
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: xAxis,
+        datasets: [{
+            borderColor: 'rgb(231,76,60)',
+            backgroundColor: 'rgba(231,76,60,0.3',
+            fill: true,
+            data: yAxis,
+            pointBackgroundColor: 'rgb(231,76,60)',
+
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+            display: false
+         },
+    }
+    });
+
+    $('#myChart').hide().fadeIn(1000);
+}
+
+buildLiftChart();
+
+var titleString = $('#chooseLiftToDisplay').val();
 
 $('#lifttypes').change(function() {
     if ($('#lifttypes').val() == 'new') {
@@ -140,5 +193,11 @@ $('#lifttypes').change(function() {
         $('#newType').css('display', 'block');
     }
 });
+
+$('#exitNewLift').click(function() {
+    $('#lifttypes').show();
+    $('#lifttypes').val('select')
+    $('#newType').css('display', 'none');
+})
 </script>
 {% endblock %}

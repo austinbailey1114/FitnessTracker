@@ -11,6 +11,7 @@ class Lift extends Model {
         'reps',
         'type',
         'user',
+        'date',
         'created_at'
     ];
 

@@ -14,10 +14,19 @@ class LiftController extends Controller {
 	}
 
 	public function postLift($request, $response) {
+
+		if ($request->getParam('date') == "") {
+			$date = strtotime('today midnight');
+		} else {
+			$date = "asdf";
+		}
+
+		$date = date("Y-m-d H:i:s", $date);
+
 		$lift = [
 			'weight' => $request->getParam('weight'),
 			'reps' => $request->getParam('reps'),
-			'date' => $request->getParam('date'),
+			'date' => $date,
 			'user' => $this->auth->user()->id,
 		];
 
