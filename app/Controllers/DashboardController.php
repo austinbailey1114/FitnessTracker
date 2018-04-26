@@ -14,12 +14,14 @@ class DashboardController extends Controller {
 		$lifts = Lift::where('user', $id)->get();
 		$foods = Food::where('user', $id)->get();
 		$lifttypes = LiftType::where('user', $id)->get();
+		$name = $this->auth->user()->name;
 
 		return $this->view->render($response, 'index.twig', [
 			'bodyweights' => $bodyweights,
 			'lifts' => $lifts,
 			'foods' => $foods,
 			'lifttypes' => $lifttypes,
+			'name' => $name,
 		]);
 	}
 

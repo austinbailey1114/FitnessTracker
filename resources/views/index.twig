@@ -13,11 +13,7 @@
     </div>
     <div id="linksContainer">
         <div class="dropdown">
-            <button v-on:click="toggleDropDown()" class="dropButton" style="display: none">Hello</button>
-            <div class="dropDownContent" v-if="showDropDown">
-                <a href="./logout"><h3 id="accountLink">Log Out</h3></a>
-                <a href="./reset"><h3 id="passwordLink">Settings</h3></a>
-            </div>
+            <button class="dropButton">{{ name }}</button>
         </div>
         <img src="./images/userIcon.png" height="52" width="52" id="userIcon">
     </div>
@@ -31,7 +27,7 @@
                     <a id="lifttable" href="lifts/view/asTable">View as Table</a>
                 </form>
             </div>
-            <select name="chooseLift" id="chooseLiftToDisplay" v-on:change="updateLiftChart()">
+            <select name="chooseLift" id="chooseLiftToDisplay">
                 {% for type in lifttypes %}
                     <option value="{{ type.name }}">{{ type.name }}</option>
                 {% endfor %}
@@ -123,10 +119,15 @@
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script src="{{ base_url() }}/js/jquery.min.js"></script>
+<script src="{{ base_url() }}/js/jquery.maskedinput.js">
+
+</script>
 <script type="text/javascript">
 
 var lifts = {{ lifts|json_encode|raw }};
 var bodyWeights = {{ bodyweights|json_encode|raw }}
+
+$('#dateInput').mask("99/99/9999", {placeholder: "mm/dd/yyyy"});
 
 $('#chooseLiftToDisplay').change(function() {
     buildLiftChart();
