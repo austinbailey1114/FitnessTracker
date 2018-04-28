@@ -1,6 +1,6 @@
 {% extends '/templates/app.twig' %}
 {% block content %}
-<link rel="stylesheet" type="text/css" href="./css/index.css">
+<link rel="stylesheet" type="text/css" href="{{ base_url() }}/css/index.css">
 <div id="app">
 <div id="topContainer">
     <div id="headerContainer">
@@ -26,9 +26,9 @@
         <div class="lift">
             <div>
                 <h2 align="center" id="liftProgressTitle">Your Lift Progress</h2>
-                <form id="lifttableform" action="lifts/view/asTable">
-                    <a id="lifttable" href="lifts/view/asTable">View as Table</a>
-                </form>
+                <div id="lifttableform">
+                    <a id="lifttable" href="{{ path_for('lift.table') }}">View as Table</a>
+                </div>
             </div>
             <select name="chooseLift" id="chooseLiftToDisplay">
                 {% for type in lifttypes %}

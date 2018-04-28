@@ -3,6 +3,7 @@ body {
 	margin:0;
 	padding: 0;
 	background-color: #f8f8f8;
+	background-color: pink;
 }
 
 div {
@@ -21,12 +22,12 @@ h2 {
 	line-height: 63px;
 	border: 1px solid #DCDCDC;
 	border-radius: 5px;
-	
+
 }
 
 h1 {
 	font-weight: 200;
-	
+
 }
 
 h3 {
@@ -56,19 +57,20 @@ button {
 	font-size: 14px;
 }
 
-#table {
+table {
 	width: 60%;
   	margin-left: 20%;
   	text-align: center;
 	border: 1px solid #DCDCDC;
 	border-radius: 5px;
     background-color: white;
-    display: none;
+	display: block;
+}
+
+#table {
+	display: block;
 }
 
 #liftTable {
 	width: 100%;
 }
-
-
-

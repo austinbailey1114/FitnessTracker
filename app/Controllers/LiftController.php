@@ -62,9 +62,13 @@ class LiftController extends Controller {
 
 	}
 
-	//app functions
 	public function showLiftTable($request, $response, $args) {
-		return $this->view->render($response, 'liftTable.php');
+
+		$lifts = Lift::where('user', $this->auth->user()->id)->get();
+
+		return $this->view->render($response, 'liftTable.twig', [
+			'lifts' => $lifts
+		]);
 	}
 
 	public function deleteLiftFromTable($request, $response, $args) {

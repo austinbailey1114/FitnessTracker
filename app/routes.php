@@ -13,9 +13,9 @@ $app->group('', function() {
 
 	$this->group('/lifts', function() {
 		//app pages
-		$this->get('/view/asTable', 'LiftController:showLiftTable');
+		$this->get('/table', 'LiftController:showLiftTable')->setName('lift.table');
 		$this->post('/addLift', 'LiftController:postLift')->setName('lift.post');
-		$this->get('/deleteLift/{id}', 'LiftController:deleteLiftFromTable');
+		$this->get('/deleteLift/{id}', 'LiftController:deleteLiftFromTable')->setName('lift.delete');
 	});
 
 	$this->group('/bodyweights', function() {
