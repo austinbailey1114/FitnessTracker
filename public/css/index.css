@@ -32,11 +32,11 @@ div {
 
 h2 {
 	font-weight: 300;
-	
+
 }
 
 h1 {
-	font-weight: 300;	
+	font-weight: 300;
 }
 
 h3 {
@@ -48,8 +48,8 @@ p {
 }
 
 input {
-	padding:5px 15px; 
-    border:2px solid #ccc; 
+	padding:5px 15px;
+    border:2px solid #ccc;
     width: 200px;
     margin: auto;
     border-bottom: 1px solid #ccc;
@@ -136,6 +136,10 @@ input {
 	cursor: pointer;
 }
 
+.dropdown:hover .dropDownContent {
+	display: block;
+}
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -148,7 +152,7 @@ input {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     text-align: center;
-    display: block;
+    display: none;
 }
 
 .dropDownContent a {
@@ -292,7 +296,7 @@ h2.subhead {
 .lift {
 	width: 55%;
 	display: inline-block;
-	text-align: center;	
+	text-align: center;
 	border: 1px solid #DCDCDC;
 	border-radius: 5px;
 	background-color: white;
@@ -354,7 +358,7 @@ h2.subhead {
 }
 
 #typeSelectDiv {
-	margin-left: 20%;	
+	margin-left: 20%;
 	line-height: 20px;
 	height: 100%;
 	margin-right: 20px;
@@ -385,7 +389,7 @@ h2.subhead {
 
 #lifttypes {
 	width: 25%;
-	margin: auto; 
+	margin: auto;
 	margin-top: 3%;
 }
 
@@ -559,7 +563,7 @@ h2.subhead {
 
 #newWeight {
 	float: right;
-	width: 45%;	
+	width: 45%;
 }
 
 #bodyweightGraphDiv {
@@ -580,7 +584,7 @@ h2.subhead {
 	font-size: 13px;
   	font-weight: 200;
   	color: #E74C3C;
-	
+
 }
 
 #bodyweighttabletitle {
@@ -769,10 +773,3 @@ h2.subhead {
 		width: 150px;
 	}
 }
-
-
-
-
-
-
-

@@ -5,7 +5,7 @@ $app->group('', function() {
 	$this->group('/', function() {
 		$this->get('home', 'DashboardController:index')->setName('home');
 		$this->post('verify', 'DashboardController:verify');
-		$this->get('logout', 'DashboardController:logout');
+		$this->get('logout', 'DashboardController:logout')->setName('logout');
 		$this->get('createAccount', 'DashboardController:newUser');
 		$this->get('reset', 'DashboardController:reset');
 		$this->get('resetPassword', 'UserController:resetPassword');

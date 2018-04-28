@@ -10,18 +10,35 @@ class DashboardController extends Controller {
 	public function index($request, $response) {
 		$id = $this->auth->user()->id;
 
-		$bodyweights = Bodyweight::where('user', $id)->get();
-		$lifts = Lift::where('user', $id)->get();
+
+		$cals = $protein = $fat = $carbs = 0;
 		$foods = Food::where('user', $id)->get();
-		$lifttypes = LiftType::where('user', $id)->get();
+
+		if (count($foods) > 0) {
+			foreach ($foods as $food) {
+				$cals += $food->calories;
+				$protein += $food->protein;
+				$fat += $food->fat;
+				$carbs += $food->carbs;
+			}
+		}
+
+		$nutrientCounts = [
+			'cals' => $cals,
+			'protein' => $protein,
+			'fat' => $fat,
+			'carbs' => $carbs
+		];
+
 		$name = $this->auth->user()->name;
 
 		return $this->view->render($response, 'index.twig', [
-			'bodyweights' => $bodyweights,
-			'lifts' => $lifts,
+			'bodyweights' => Bodyweight::where('user', $id)->get(),
+			'lifts' => Lift::where('user', $id)->get(),
 			'foods' => $foods,
-			'lifttypes' => $lifttypes,
+			'lifttypes' => LiftType::where('user', $id)->get(),
 			'name' => $name,
+			'nutrientCounts' => $nutrientCounts
 		]);
 	}
 

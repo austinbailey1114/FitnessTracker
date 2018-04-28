@@ -14,6 +14,9 @@
     <div id="linksContainer">
         <div class="dropdown">
             <button class="dropButton">{{ name }}</button>
+            <div class="dropDownContent">
+                <a href="{{ path_for('logout') }}">Log Out</a>
+            </div>
         </div>
         <img src="./images/userIcon.png" height="52" width="52" id="userIcon">
     </div>
@@ -74,6 +77,10 @@
     </div>
     <div class="nutrition">
         <div id="showData">
+            <p id="displayCals">Today's calories: {{ nutrientCounts.cals }}</p>
+            <p id="displayFat">Today's fat: {{ nutrientCounts.fat }}</p>
+            <p id="displayCarbs">Today's carbs: {{ nutrientCounts.carbs }}</p>
+            <p id="displayProtein">Today's protein: {{ nutrientCounts.protein }}</p>
         </div>
         <div id="newFood">
             <form id="searchFood" action="./foods/search" method="post">
@@ -89,6 +96,9 @@
         <div id="foodHistoryContainer">
             <h3>Food Today</h3>
             <div id="foodHistory">
+                {% for food in foods %}
+                    <p>{{ food.name }}</p>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -127,7 +137,7 @@
 var lifts = {{ lifts|json_encode|raw }};
 var bodyWeights = {{ bodyweights|json_encode|raw }}
 
-$('#dateInput').mask("99/99/9999", {placeholder: "mm/dd/yyyy"});
+$('#dateInput').mask("99/99/9999", { placeholder: "mm/dd/yyyy" });
 
 $('#chooseLiftToDisplay').change(function() {
     buildLiftChart();
@@ -151,19 +161,23 @@ function buildLiftChart() {
     var xAxis = [];
     var yAxis = [];
     for (var i = 0; i < lifts.length; i++) {
-        //If the lift is of the selected type
+        // If the lift is of the selected type
         if(lifts[i].type == type) {
             if (xAxis.length > 0) {
-                //Find the index of the date of the current item
+                // Find the index of the date of the current item
                 var index = xAxis.findIndex(function(element) {
                     return element == lifts[i].date;
                 });
+                console.log(index);
                 // If the date already exists, check if the corresponding lift (in the y axis) needs to be updated
-                if (index != null) {
+                if (index != -1) {
                     // Only change the lift if the 1RM of the current index is larger
                     if (yAxis[index] < (lifts[i].weight * (1 + (lifts[i].reps  / 30)))) {
                         yAxis[index] = lifts[i].weight * (1 + (lifts[i].reps  / 30));
                     }
+                } else {
+                    xAxis.push(lifts[i].date);
+                    yAxis.push(lifts[i].weight * (1 + (lifts[i].reps  / 30)));
                 }
             } else {
                 xAxis.push(lifts[i].date);
@@ -175,10 +189,8 @@ function buildLiftChart() {
 
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
-    // The type of chart we want to create
     type: 'line',
 
-    // The data for our dataset
     data: {
         labels: xAxis,
         datasets: [{
@@ -191,7 +203,6 @@ function buildLiftChart() {
         }]
     },
 
-    // Configuration options go here
     options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -214,10 +225,8 @@ function buildWeightChart() {
 
     var ctx = document.getElementById('bodyweightChart').getContext('2d');
     var chart = new Chart(ctx, {
-    	// The type of chart we want to create
     	type: 'line',
 
-    	// The data for our dataset
     	data: {
     	    labels: xAxis,
     	    datasets: [{
@@ -229,7 +238,6 @@ function buildWeightChart() {
     	    }]
     	},
 
-    	// Configuration options go here
     	options: {
     	    responsive: true,
     	    maintainAspectRatio: false,
