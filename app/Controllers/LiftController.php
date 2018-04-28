@@ -72,21 +72,9 @@ class LiftController extends Controller {
 	}
 
 	public function deleteLiftFromTable($request, $response, $args) {
+		
+		Lift::where('id', $args['id'])->delete();
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, getenv('URL') . 'api/lifts/');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($args));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-		$result = curl_exec($ch);
-
-		if ($result) {
-			$_SESSION['message'] = 'deleteSuccess';
-		} else {
-			$_SESSION['message'] = 'deleteFailed';
-		}
-
-		return $response->withStatus(200)->withHeader('Location', '../../');
+		return $response->withRedirect($this->router->pathFor('lift.table'));
 	}
 }
