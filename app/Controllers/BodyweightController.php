@@ -75,10 +75,7 @@ class BodyweightController extends Controller {
 	}
 
 	public function deleteBodyweightFromTable($request, $response, $args) {
-
 		Bodyweight::where('id', $args['id'])->delete();
-
 		return $response->withRedirect($this->router->pathFor('bodyweight.table'));
-
 	}
 }

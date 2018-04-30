@@ -46,4 +46,10 @@ class DashboardController extends Controller {
 		return $this->view->render($response, 'login.twig');
 	}
 
+	public function logout($request, $response) {
+		$this->auth->logout();
+
+		return $response->withRedirect($this->router->pathFor('auth.signin'));
+	}
+
 }
