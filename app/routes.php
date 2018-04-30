@@ -2,14 +2,10 @@
 use Carbon\Middleware\AuthMiddleware;
 
 $app->group('', function() {
-	$this->group('/', function() {
-		$this->get('home', 'DashboardController:index')->setName('home');
-		$this->post('verify', 'DashboardController:verify');
-		$this->get('logout', 'DashboardController:logout')->setName('logout');
-		$this->get('createAccount', 'DashboardController:newUser');
-		$this->get('reset', 'DashboardController:reset');
-		$this->get('resetPassword', 'UserController:resetPassword');
-	});
+	$this->get('/home', 'DashboardController:index')->setName('home');
+	$this->post('/verify', 'DashboardController:verify');
+	$this->get('/logout', 'DashboardController:logout')->setName('logout');
+	$this->get('/createAccount', 'DashboardController:newUser');
 
 	$this->group('/lifts', function() {
 		//app pages
@@ -20,14 +16,13 @@ $app->group('', function() {
 
 	$this->group('/bodyweights', function() {
 		//app pages
-		$this->get('/view/asTable', 'BodyweightController:showBodyweightTable');
+		$this->get('/table', 'BodyweightController:showBodyweightTable')->setName('bodyweight.table');
 		$this->post('/addBodyweight', 'BodyweightController:postBodyweight')->setName('bodyweight.post');
-		$this->get('/deleteBodyweight/{id}', 'BodyweightController:deleteBodyweightFromTable');
+		$this->get('/delete/{id}', 'BodyweightController:deleteBodyweightFromTable')->setName('bodyweight.delete');
 	});
 
 	$this->group('/lifttypes', function() {
 		//app pages
-		//probably none
 	});
 
 	$this->group('/foods', function() {

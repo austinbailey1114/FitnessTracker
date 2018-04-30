@@ -1,0 +1,24 @@
+{% extends '/templates/app.twig' %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ base_url() }}/css/table.css">
+<h2 align="center">Bodyweight History</h2>
+<table id="table">
+    <tr>
+        <th>Weight</th>
+        <th>Date</th>
+        <th>Delete</th>
+    </tr>
+    {% for bodyweight in bodyweights %}
+        <tr>
+            <th>{{ bodyweight.weight }}</th>
+            <th>{{ bodyweight.date }}</th>
+            <td><a href="{{ path_for('bodyweight.delete', { 'id': bodyweight.id }) }}"><button>Delete</button></a></td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $('#table').hide().fadeIn(1000);
+</script>
+{% endblock %}

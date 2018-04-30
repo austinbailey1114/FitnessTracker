@@ -43,7 +43,9 @@ class BodyweightController extends Controller {
 
 	//app pages
 	public function showBodyweightTable($request, $response) {
-		return $this->view->render($response, 'bodyweightTable.php');
+		return $this->view->render($response, 'bodyweightTable.twig', [
+			'bodyweights' => Bodyweight::where('user', $this->auth->user()->id)->get()
+		]);
 	}
 
 	public function addBodyweight($request, $response) {
@@ -74,22 +76,9 @@ class BodyweightController extends Controller {
 
 	public function deleteBodyweightFromTable($request, $response, $args) {
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, getenv('URL') . 'api/bodyweights/');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($args));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		Bodyweight::where('id', $args['id'])->delete();
 
-		$result = curl_exec($ch);
-
-		if ($result) {
-			$_SESSION['message'] = 'deleteSuccess';
-		} else {
-			$_SESSION['message'] = 'deleteFailed';
-		}
-
-
-		return $response->withHeader('Location', '../../');
+		return $response->withRedirect($this->router->pathFor('bodyweight.table'));
 
 	}
 }
