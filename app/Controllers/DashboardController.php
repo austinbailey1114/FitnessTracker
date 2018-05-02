@@ -14,13 +14,11 @@ class DashboardController extends Controller {
 		$cals = $protein = $fat = $carbs = 0;
 		$foods = Food::where('user', $id)->get();
 
-		if (count($foods) > 0) {
-			foreach ($foods as $food) {
-				$cals += $food->calories;
-				$protein += $food->protein;
-				$fat += $food->fat;
-				$carbs += $food->carbs;
-			}
+		foreach ($foods as $food) {
+			$cals += $food->calories;
+			$protein += $food->protein;
+			$fat += $food->fat;
+			$carbs += $food->carbs;
 		}
 
 		$nutrientCounts = [

@@ -15,7 +15,7 @@
         <div class="dropdown">
             <button class="dropButton">{{ name }}</button>
             <div class="dropDownContent">
-                <a href="{{ path_for('logout') }}">Log Out</a>
+                <p><a href="{{ path_for('logout') }}">Log Out</a></p>
             </div>
         </div>
         <img src="./images/userIcon.png" height="52" width="52" id="userIcon">
@@ -43,11 +43,11 @@
             <form action="{{ path_for('lift.post') }}" method="post">
                 <div id="addNewWeight">
                     <p id="promptWeight">Weight: </p>
-                    <input type="text" name="weight" id="weightInput" placeholder="pounds" autocomplete="off" v-on:input="checkInput($('#weightInput').val(), 'promptWeight', 'Weight: ')">
+                    <input class="numeric-input" type="text" name="weight" id="weightInput" placeholder="pounds" autocomplete="off">
                 </div>
                 <div id="addNewReps">
                     <p id="promptReps">Reps:</p>
-                    <input type="text" name="reps" id="repsInput" placeholder="repetitions" autocomplete="off" v-on:input="checkInput($('#repsInput').val(), 'promptReps', 'Reps: ')">
+                    <input class="numeric-input" type="text" name="reps" id="repsInput" placeholder="repetitions" autocomplete="off">
                 </div>
                 <div id="addNewType">
                     <p id="promptType">Type:</p>
@@ -60,7 +60,7 @@
                             {% endfor %}
                         </select>
                         <div id="newType" style="display: none">
-                            <button id='exitNewLift' type=button v-on:click='unfillType()'>
+                            <button id='exitNewLift' type=button>
                                 <img src='./images/xicon.png' height='15' width='15' style='margin-right: 5px;'>
                             </button>
                             <input type='text' name='newType' id='typeInput' placeholder='new type' autocomplete='off'>
@@ -114,7 +114,7 @@
             <form action="{{ path_for('bodyweight.post') }}" method="post">
                 <div id="promptBodyweight">
                     <h2 id="weightTitle">Update: </h2>
-                    <input type="text" name="weight" id="newBodyWeight" placeholder="pounds">
+                    <input class="numeric-input" type="text" name="weight" id="newBodyWeight" placeholder="pounds">
                 </div>
                 <div id="addBodyweightButtonDiv">
                     <button id="add">Update</button>
@@ -128,6 +128,7 @@
 {% endblock %}
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="{{ base_url() }}/js/swal.js"></script>
 <script src="{{ base_url() }}/js/jquery.maskedinput.js">
 
 </script>
@@ -153,6 +154,19 @@ $('#exitNewLift').click(function() {
     $('#lifttypes').show();
     $('#lifttypes').val('select')
     $('#newType').css('display', 'none');
+});
+
+$('form').submit(function(event) {
+    event.preventDefault();
+    var hasSwaled = false;
+    $('.numeric-input').each(function(index, element) {
+        if(isNaN(element.value)) {
+            swal('One of your inputs is not a number!', 'Please check that all inputs have a numerical value', 'error');
+            hasSwaled = true;
+            return;
+        }
+    });
+    if (!hasSwaled) event.target.submit();
 });
 
 function buildLiftChart() {
@@ -186,10 +200,16 @@ function buildLiftChart() {
         }
     }
 
+    // Convert dates to neater format
+    for (var i = 0; i < xAxis.length; i++) {
+        var element = new Date(xAxis[i]);
+        var newDate = element.getMonth() + "/" + element.getDate() + "/" + element.getFullYear();
+        xAxis[i] = newDate;
+    }
+
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
     type: 'line',
-
     data: {
         labels: xAxis,
         datasets: [{
@@ -220,6 +240,13 @@ function buildWeightChart() {
     for (var i = 0; i < bodyWeights.length; i++) {
         xAxis.push(bodyWeights[i].date);
         yAxis.push(bodyWeights[i].weight);
+    }
+
+    // Convert dates to neater format
+    for (var i = 0; i < xAxis.length; i++) {
+        var element = new Date(xAxis[i]);
+        var newDate = element.getMonth() + "/" + element.getDate() + "/" + element.getFullYear();
+        xAxis[i] = newDate;
     }
 
     var ctx = document.getElementById('bodyweightChart').getContext('2d');

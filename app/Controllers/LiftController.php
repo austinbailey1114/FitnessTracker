@@ -72,7 +72,7 @@ class LiftController extends Controller {
 	}
 
 	public function deleteLiftFromTable($request, $response, $args) {
-		
+
 		Lift::where('id', $args['id'])->delete();
 
 		return $response->withRedirect($this->router->pathFor('lift.table'));
