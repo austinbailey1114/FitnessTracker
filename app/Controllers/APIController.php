@@ -36,6 +36,16 @@ class APIController extends Controller {
             return $response->withStatus(400);
         }
     }
+
+    public function deleteLift($request, $response) {
+        try {
+            Lift::where('id', $request->getParam('id'))->delete();
+
+            return $response->withStatus(201);
+        } catch(\Illuminate\Database\QueryException $e) {
+            return $response->withStatus(400);
+        }
+    }
 }
 
 ?>
