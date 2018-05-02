@@ -5,14 +5,6 @@ use Carbon\Models\Lift;
 use Carbon\Models\LiftType;
 
 class LiftController extends Controller {
-	//api functions
-	public function getLifts($request, $response, $args) {
-		$query = new Query();
-		$mydata = $query->table('lifts')->where('user', '=', $args['id'])->execute();
-
-		return $response->withJson($mydata, 200, JSON_PRETTY_PRINT);
-	}
-
 	public function postLift($request, $response) {
 
 		if ($request->getParam('date') == "") {
@@ -44,22 +36,6 @@ class LiftController extends Controller {
 		Lift::create($lift);
 
 		return $response->withRedirect($this->router->pathFor('home'));
-	}
-
-	public function deleteLift($request, $response) {
-		$data = $request->getParsedBody();
-
-		$query = new Query();
-		$result = $query->table('lifts')->delete('id', '=', $data['id'])->execute();
-
-		if ($result) {
-			echo "Item deleted successfully";
-			return $response->withStatus(200);
-		} else {
-			echo "Unable to delete item. Please ensure all variables are properly defined";
-			return $response->withStatus(400);
-		}
-
 	}
 
 	public function showLiftTable($request, $response, $args) {

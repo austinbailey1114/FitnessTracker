@@ -70,16 +70,16 @@ $container['BodyweightController'] = function($container) {
 	return new \Carbon\Controllers\BodyweightController($container);
 };
 
-$container['LifttypesController'] = function($container) {
-	return new \Carbon\Controllers\LifttypesController($container);
-};
-
 $container['FoodController'] = function($container) {
 	return new \Carbon\Controllers\FoodController($container);
 };
 
 $container['UserController'] = function($container) {
 	return new \Carbon\Controllers\UserController($container);
+};
+
+$container['APIController'] = function($container) {
+	return new \Carbon\Controllers\APIController($container);
 };
 
 

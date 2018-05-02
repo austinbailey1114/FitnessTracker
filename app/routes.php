@@ -30,11 +30,6 @@ $app->group('', function() {
 		$this->post('/search', 'FoodController:searchFoods');
 		$this->get('/addFoodToHistory/{id}', 'FoodController:addFoodtoHistory');
 	});
-
-	$this->group('/users', function() {
-		$this->post('/checkLogin', 'UserController:checkLogin');
-		$this->post('/addUser', 'UserController:addUser');
-	});
 })->add(new AuthMiddleware($container));
 
 $app->get('/login', 'AuthController:getSignIn')->setName('auth.signin');
@@ -42,8 +37,8 @@ $app->post('/login', 'AuthController:postSignIn')->setName('auth.signin');
 
 $app->group('/api', function() {
 	$this->group('/lifts', function() {
-		$this->get('/{id}', 'LiftController:getLifts');
-		$this->post('/', 'LiftController:postLift');
+		$this->get('/{id}', 'APIController:getLift');
+		$this->post('/', 'APIController:postLift');
 		$this->delete('/', 'LiftController:deleteLift');
 	});
 	$this->group('/bodyweights', function() {

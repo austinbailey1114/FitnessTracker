@@ -129,9 +129,7 @@
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script src="{{ base_url() }}/js/swal.js"></script>
-<script src="{{ base_url() }}/js/jquery.maskedinput.js">
-
-</script>
+<script src="{{ base_url() }}/js/jquery.maskedinput.js"></script>
 <script type="text/javascript">
 
 var lifts = {{ lifts|json_encode|raw }};
@@ -181,7 +179,6 @@ function buildLiftChart() {
                 var index = xAxis.findIndex(function(element) {
                     return element == lifts[i].date;
                 });
-                console.log(index);
                 // If the date already exists, check if the corresponding lift (in the y axis) needs to be updated
                 if (index != -1) {
                     // Only change the lift if the 1RM of the current index is larger

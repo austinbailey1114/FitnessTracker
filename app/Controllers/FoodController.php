@@ -4,14 +4,6 @@ namespace Carbon\Controllers;
 
 class FoodController extends Controller {
 	//api
-	public function getFoods($request, $response, $args) {
-		$query = new Query();
-
-		$mydata = $query->table('foods')->where('user', '=', $args['id'])->and_where('date', '>', 'CURDATE()')->execute();
-
-		return $response->withJson($mydata, 200, JSON_PRETTY_PRINT);
-	}
-
 	public function addFoodToHistory($request, $response, $args) {
 		$query = new Query();
 
@@ -36,9 +28,9 @@ class FoodController extends Controller {
 		} else {
 			$_SESSION['message'] = 'failed';
 		}
-		
+
 		return $response->withHeader('Location', '../../');
-		
+
 	}
 
 	public function searchFoods($request, $response, $args) {
