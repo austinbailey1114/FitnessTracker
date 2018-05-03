@@ -10,7 +10,7 @@ class LiftController extends Controller {
 		if ($request->getParam('date') == "") {
 			$date = strtotime('today midnight');
 		} else {
-			$date = "asdf";
+			$date = strtotime($request->getParam('date'));
 		}
 
 		$date = date("Y-m-d H:i:s", $date);
@@ -40,7 +40,7 @@ class LiftController extends Controller {
 
 	public function showLiftTable($request, $response, $args) {
 
-		$lifts = Lift::where('user', $this->auth->user()->id)->get();
+		$lifts = Lift::where('user', $this->auth->user()->id)->orderBy('date', 'desc')->get();
 
 		return $this->view->render($response, 'liftTable.twig', [
 			'lifts' => $lifts

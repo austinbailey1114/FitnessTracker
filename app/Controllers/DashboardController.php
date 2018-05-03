@@ -32,7 +32,7 @@ class DashboardController extends Controller {
 
 		return $this->view->render($response, 'index.twig', [
 			'bodyweights' => Bodyweight::where('user', $id)->get(),
-			'lifts' => Lift::where('user', $id)->get(),
+			'lifts' => Lift::where('user', $id)->orderBy('date', 'asc')->get(),
 			'foods' => $foods,
 			'lifttypes' => LiftType::where('user', $id)->get(),
 			'name' => $name,

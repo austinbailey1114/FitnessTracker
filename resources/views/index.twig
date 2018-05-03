@@ -133,6 +133,8 @@
 <script type="text/javascript">
 
 var lifts = {{ lifts|json_encode|raw }};
+
+console.log(lifts);
 var bodyWeights = {{ bodyweights|json_encode|raw }}
 
 $('#dateInput').mask("99/99/9999", { placeholder: "mm/dd/yyyy" });
@@ -200,7 +202,7 @@ function buildLiftChart() {
     // Convert dates to neater format
     for (var i = 0; i < xAxis.length; i++) {
         var element = new Date(xAxis[i]);
-        var newDate = element.getMonth() + "/" + element.getDate() + "/" + element.getFullYear();
+        var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
         xAxis[i] = newDate;
     }
 
@@ -242,7 +244,7 @@ function buildWeightChart() {
     // Convert dates to neater format
     for (var i = 0; i < xAxis.length; i++) {
         var element = new Date(xAxis[i]);
-        var newDate = element.getMonth() + "/" + element.getDate() + "/" + element.getFullYear();
+        var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
         xAxis[i] = newDate;
     }
 
