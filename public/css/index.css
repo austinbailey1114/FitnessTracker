@@ -1,3 +1,5 @@
+/* GLOBAL */
+
 * {
 	transition: 0.2s ease all;
 }
@@ -18,35 +20,6 @@ p {
     display: inline-block;
 }
 
-/* navigation */
-
-.top {
-    height: 65px;
-	border-bottom: 1px
-	-webkit-box-shadow: 0px -9px 32px 0px rgba(0,0,0,0.88);
-	-moz-box-shadow: 0px -9px 32px 0px rgba(0,0,0,0.88);
-	box-shadow: 0px -9px 32px 0px rgba(0,0,0,0.88);
-	background: linear-gradient(to right, #EEEEF2 , #f7f7f9);
-}
-
-.top-left {
-	float: left;
-}
-
-.title {
-	border-right: 1.3px solid #d6d6d6;
-}
-
-.title > * {
-	vertical-align: middle;
-}
-
-.image {
-	vertical-align: middle;
-	padding: 10px;
-	border-radius: 20px;
-}
-
 .header {
 	display: inline-block;
 	font-size: 30px;
@@ -61,6 +34,63 @@ p {
 	padding: 10px;
 	font-weight: 300;
 	font-size: 18px;
+}
+
+.link-small {
+	color: #E74C3C;
+	text-decoration: none;
+	font-weight: 300;
+	font-size: 16px;
+	float: right;
+	padding: 10px 0;
+}
+
+.header-small {
+	display: inline-block;
+	font-size: 23px;
+	font-weight: 200;
+	line-height: 45px;
+	padding-right: 5px;
+	margin: 10px;
+}
+
+.image {
+	vertical-align: middle;
+	padding: 10px;
+	border-radius: 20px;
+}
+
+.select-container {
+	width: 100%;
+	text-align: center;
+}
+
+.select {
+	margin-bottom: 8px;
+	margin-top: 0px;
+}
+
+/* navigation */
+
+.top {
+    height: 65px;
+	border-bottom: 1px
+	-webkit-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	-moz-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	background: linear-gradient(to right, #EEEEF2 , #f7f7f9);
+}
+
+.top-left {
+	float: left;
+}
+
+.title {
+	border-right: 1.3px solid #d6d6d6;
+}
+
+.title > * {
+	vertical-align: middle;
 }
 
 .dropdown {
@@ -91,4 +121,34 @@ p {
 
 /* DASHBAORD */
 
+.container {
+	height: 350px;
+	margin: 30px 30px;
+	padding: 10px 10px;
+}
+
+.container-child {
+	-webkit-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	-moz-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	border-radius: 5px;
+	background-color: white;
+	padding: 0 2.5%;
+	height: 100%;
+}
+
 /* lift div */
+
+.lift-graph {
+	float: right;
+	width: 50%
+}
+
+.new-lift {
+	float: left;
+	width: 35%;
+}
+
+.lift-chart-container {
+	height: 240px;
+}

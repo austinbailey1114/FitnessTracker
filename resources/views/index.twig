@@ -23,23 +23,23 @@
 </div>
 <div class="dashboard">
     <div class="lifts-container container">
-        <div class="lift-graph inline">
+        <div class="lift-graph inline container-child">
             <div>
-                <h2 align="center" id="liftProgressTitle">Your Lift Progress</h2>
-                <div id="lifttableform">
-                    <a id="lifttable" href="{{ path_for('lift.table') }}">View as Table</a>
-                </div>
+                <h2 class="header-small inline">Your Lift Progress</h2>
+                <a class="link-small inline" href="{{ path_for('lift.table') }}">View as Table</a>
             </div>
-            <select name="chooseLift" id="chooseLiftToDisplay">
-                {% for type in lifttypes %}
-                    <option value="{{ type.name }}">{{ type.name }}</option>
-                {% endfor %}
-            </select>
-            <div id ="graphDiv">
-                <canvas id="myChart"></canvas>
+            <div class="select-container">
+                <select class="select" id="choose-lift">
+                    {% for type in lifttypes %}
+                        <option value="{{ type.name }}">{{ type.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="lift-chart-container">
+                <canvas id="lift-chart"></canvas>
             </div>
         </div>
-        <div class="new-lift inline">
+        <div class="new-lift inline container-child">
             <form action="{{ path_for('lift.post') }}" method="post">
                 <div id="addNewWeight">
                     <p id="promptWeight">Weight: </p>
@@ -76,41 +76,43 @@
         </div>
     </div>
     <div class="container">
-        <div id="showData">
+        <div class="food-total container-child">
             <p id="displayCals">Today's calories: {{ nutrientCounts.cals }}</p>
             <p id="displayFat">Today's fat: {{ nutrientCounts.fat }}</p>
             <p id="displayCarbs">Today's carbs: {{ nutrientCounts.carbs }}</p>
             <p id="displayProtein">Today's protein: {{ nutrientCounts.protein }}</p>
         </div>
-        <div id="newFood">
-            <form id="searchFood" action="./foods/search" method="post">
-                <div id="enterfood">
-                    <h2 id="newFoodTitle">Search Foods: </h2>
-                    <input type="text" name="searchField" id="searchInput" placeholder="Food, brand, etc.">
+        <div class="container-child">
+            <div class="new-food">
+                <form id="searchFood" action="./foods/search" method="post">
+                    <div id="enterfood">
+                        <h2 id="newFoodTitle">Search Foods: </h2>
+                        <input type="text" name="searchField" id="searchInput" placeholder="Food, brand, etc.">
+                    </div>
+                    <div id="foodbutton">
+                        <button id="search">Search</button>
+                    </div>
+                </form>
+            </div>
+            <div id="foodHistoryContainer">
+                <h3>Food Today</h3>
+                <div id="foodHistory">
+                    {% for food in foods %}
+                        <p>{{ food.name }}</p>
+                    {% endfor %}
                 </div>
-                <div id="foodbutton">
-                    <button id="search">Search</button>
-                </div>
-            </form>
-        </div>
-        <div id="foodHistoryContainer">
-            <h3>Food Today</h3>
-            <div id="foodHistory">
-                {% for food in foods %}
-                    <p>{{ food.name }}</p>
-                {% endfor %}
             </div>
         </div>
     </div>
     <div class="container">
-        <div class="bodyweightGraph">
+        <div class="bodyweightGraph container-child">
             <h2 id="bodyweighttabletitle">Bodyweight</h2>
             <a id="bodyweighttable" href="{{ path_for('bodyweight.table') }}">View as Table</a>
             <div id ="bodyweightGraphDiv">
                 <canvas id="bodyweightChart"></canvas>
             </div>
         </div>
-        <div id="newWeight">
+        <div class="newWeight container-child">
             <form action="{{ path_for('bodyweight.post') }}" method="post">
                 <div id="promptBodyweight">
                     <h2 id="weightTitle">Update: </h2>
@@ -138,7 +140,7 @@ var bodyWeights = {{ bodyweights|json_encode|raw }}
 
 $('#dateInput').mask("99/99/9999", { placeholder: "mm/dd/yyyy" });
 
-$('#chooseLiftToDisplay').change(function() {
+$('#choose-lift').change(function() {
     buildLiftChart();
 });
 
@@ -169,7 +171,7 @@ $('form').submit(function(event) {
 });
 
 function buildLiftChart() {
-    var type = $('#chooseLiftToDisplay').val();
+    var type = $('#choose-lift').val();
     var xAxis = [];
     var yAxis = [];
     for (var i = 0; i < lifts.length; i++) {
@@ -205,7 +207,7 @@ function buildLiftChart() {
         xAxis[i] = newDate;
     }
 
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('lift-chart').getContext('2d');
     var chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -229,7 +231,7 @@ function buildLiftChart() {
     }
     });
 
-    $('#myChart').hide().fadeIn(1000);
+    $('#lift-chart').hide().fadeIn(1000);
 }
 
 function buildWeightChart() {
