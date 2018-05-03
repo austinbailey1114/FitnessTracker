@@ -1,29 +1,29 @@
 {% extends '/templates/app.twig' %}
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{{ base_url() }}/css/index.css">
-<div id="app">
-<div id="topContainer">
-    <div id="headerContainer">
-        <h1 align="center" id = "mainTitle">Dashboard</h1>
-        <img src="./images/hugeIcon.png" height="62" width="62" id="icon">
-    </div>
-    <div id="abouttheapp">
-    <a href="https://github.com/austinbailey1114/LiftAppSite" id="aboutLink"><h3>About</h3></a>
-    <a href="https://github.com/austinbailey1114/iOS" id="appLink"><h3>The App</h3></a>
-    </div>
-    <div id="linksContainer">
-        <div class="dropdown">
-            <button class="dropButton">{{ name }}</button>
-            <div class="dropDownContent">
-                <p><a href="{{ path_for('logout') }}">Log Out</a></p>
-            </div>
+<!-- https://dribbble.com/shots/4549955-Daily-18 -->
+<link rel="stylesheet" href="{{ base_url() }}/css/index.css">
+<div class="top">
+    <div class="top-left inline">
+        <div class="title inline">
+            <img class="image" src="./images/hugeIcon.png" height="40" width="40">
+            <p class="header" align="center">Dashboard</p>
         </div>
-        <img src="./images/userIcon.png" height="52" width="52" id="userIcon">
+        <div class="links-container inline">
+            <a href="https://github.com/austinbailey1114/LiftAppSite" class="link">About</a>
+            <a href="https://github.com/austinbailey1114/iOS" class="link">The App</a>
+        </div>
     </div>
+    <div class="dropdown inline">
+        <a class="link name" href="#">{{name}}</a>
+        <div class="drop-content">
+            <a href="{{ path_for('logout') }}" class="link">Log Out</a>
+        </div>
+    </div>
+    <!--<img class="userIcon" src="./images/userIcon.png" height="52" width="52">-->
 </div>
-<div id="dashboardDiv">
-    <div id="container">
-        <div class="lift">
+<div class="dashboard">
+    <div class="lifts-container container">
+        <div class="lift-graph inline">
             <div>
                 <h2 align="center" id="liftProgressTitle">Your Lift Progress</h2>
                 <div id="lifttableform">
@@ -39,7 +39,7 @@
                 <canvas id="myChart"></canvas>
             </div>
         </div>
-        <div id="newLiftContainer">
+        <div class="new-lift inline">
             <form action="{{ path_for('lift.post') }}" method="post">
                 <div id="addNewWeight">
                     <p id="promptWeight">Weight: </p>
@@ -75,7 +75,7 @@
             </form>
         </div>
     </div>
-    <div class="nutrition">
+    <div class="container">
         <div id="showData">
             <p id="displayCals">Today's calories: {{ nutrientCounts.cals }}</p>
             <p id="displayFat">Today's fat: {{ nutrientCounts.fat }}</p>
@@ -102,7 +102,7 @@
             </div>
         </div>
     </div>
-    <div id="weightDiv">
+    <div class="container">
         <div class="bodyweightGraph">
             <h2 id="bodyweighttabletitle">Bodyweight</h2>
             <a id="bodyweighttable" href="{{ path_for('bodyweight.table') }}">View as Table</a>
@@ -123,7 +123,6 @@
         </div>
 
     </div>
-</div>
 </div>
 {% endblock %}
 {% block scripts %}

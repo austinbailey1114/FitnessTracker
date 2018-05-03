@@ -8,21 +8,18 @@ $app->group('', function() {
 	$this->get('/createAccount', 'DashboardController:newUser');
 
 	$this->group('/lifts', function() {
-		//app pages
 		$this->get('/table', 'LiftController:showLiftTable')->setName('lift.table');
 		$this->post('/addLift', 'LiftController:postLift')->setName('lift.post');
 		$this->get('/delete/{id}', 'LiftController:deleteLiftFromTable')->setName('lift.delete');
 	});
 
 	$this->group('/bodyweights', function() {
-		//app pages
 		$this->get('/table', 'BodyweightController:showBodyweightTable')->setName('bodyweight.table');
 		$this->post('/addBodyweight', 'BodyweightController:postBodyweight')->setName('bodyweight.post');
 		$this->get('/delete/{id}', 'BodyweightController:deleteBodyweightFromTable')->setName('bodyweight.delete');
 	});
 
 	$this->group('/lifttypes', function() {
-		//app pages
 	});
 
 	$this->group('/foods', function() {
@@ -42,8 +39,8 @@ $app->group('/api', function() {
 		$this->delete('/', 'APIController:deleteLift');
 	});
 	$this->group('/bodyweights', function() {
-		$this->get('/{id}', 'BodyweightController:getBodyweights');
-		$this->post('/', 'BodyweightController:postBodyweight');
+		$this->get('/{id}', 'APIController:getBodyweight');
+		$this->post('/', 'APIController:postBodyweight');
 		$this->delete('/', 'BodyweightController:deleteBodyweight');
 	});
 	$this->group('/lifttypes', function() {

@@ -2,6 +2,7 @@
 
 namespace Carbon\Controllers;
 use Carbon\Models\Lift;
+use Carbon\Models\Bodyweight;
 use Illuminate\Database\QueryException;
 
 class APIController extends Controller {
@@ -16,7 +17,7 @@ class APIController extends Controller {
         if ($request->getParam('date') == "") {
 			$date = strtotime('today midnight');
 		} else {
-			$date = "asdf";
+			$date = strtotime($request->getParam('date'));
 		}
 
 		$date = date("Y-m-d H:i:s", $date);
@@ -32,7 +33,7 @@ class APIController extends Controller {
 
             return $response->withStatus(201);
 
-        } catch(\Illuminate\Database\QueryException $e) {
+        } catch(QueryException $e) {
             return $response->withStatus(400);
         }
     }
@@ -43,6 +44,30 @@ class APIController extends Controller {
 
             return $response->withStatus(201);
         } catch(\Illuminate\Database\QueryException $e) {
+            return $response->withStatus(400);
+        }
+    }
+
+    public function getBodyweight($request, $response, $args) {
+        $bodyweights = Bodyweight::where('user', $args['id'])->get();
+
+        return $response->withJson($bodyweights);
+    }
+
+    public function postBodyweight($request, $response) {
+
+        $date = strtotime('today midnight');
+		$date = date("Y-m-d H:i:s", $date);
+
+        try {
+            Bodyweight::create([
+                'user' => $request->getParam('user'),
+                'weight' => $request->getParam('weight'),
+                'date' => $date,
+            ]);
+
+            return $response->withStatus(200);
+        } catch(QueryException $e) {
             return $response->withStatus(400);
         }
     }
