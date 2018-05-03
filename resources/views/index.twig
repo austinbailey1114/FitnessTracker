@@ -41,37 +41,35 @@
         </div>
         <div class="new-lift inline container-child">
             <form action="{{ path_for('lift.post') }}" method="post">
-                <div id="addNewWeight">
-                    <p id="promptWeight">Weight: </p>
-                    <input class="numeric-input" type="text" name="weight" id="weightInput" placeholder="pounds" autocomplete="off">
+                <div class="lift-field">
+                    <p class="lift-prompt">Weight</p>
+                    <input class="numeric-input lift-input" type="text" name="weight" placeholder="pounds" autocomplete="off">
                 </div>
-                <div id="addNewReps">
-                    <p id="promptReps">Reps:</p>
-                    <input class="numeric-input" type="text" name="reps" id="repsInput" placeholder="repetitions" autocomplete="off">
+                <div class="lift-field">
+                    <p class="lift-prompt">Reps</p>
+                    <input class="numeric-input lift-input" type="text" name="reps" placeholder="repetitions" autocomplete="off">
                 </div>
-                <div id="addNewType">
-                    <p id="promptType">Type:</p>
-                    <div id="typeSelectDiv">
-                        <select id="lifttypes" name='liftType' v-on:change="fillType()">
-                            <option value="select">-- Select Type--</option>
-                            <option value="new">New</option>
-                            {% for type in lifttypes %}
-                                <option value="{{ type.name }}">{{ type.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <div id="newType" style="display: none">
-                            <button id='exitNewLift' type=button>
-                                <img src='./images/xicon.png' height='15' width='15' style='margin-right: 5px;'>
-                            </button>
-                            <input type='text' name='newType' id='typeInput' placeholder='new type' autocomplete='off'>
-                        </div>
+                <div class="lift-field">
+                    <p class="lift-prompt">Date</p>
+                    <input id="date-input" class=" lift-input" type="text" name="date" placeholder="leave blank if today" autocomplete="off">
+                </div>
+                <div class="lift-field">
+                    <p class="lift-prompt inline">Type</p>
+                    <select id="select-lift-type" class="select select-wide" name='liftType'>
+                        <option value="select">-- Select Type--</option>
+                        <option value="new">New</option>
+                        {% for type in lifttypes %}
+                            <option value="{{ type.name }}">{{ type.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="newType" style="display: none">
+                        <button id='exitNewLift' type=button>
+                            <img src='./images/xicon.png' height='15' width='15' style='margin-right: 5px;'>
+                        </button>
+                        <input class="lift-input" type='text' name='newType' id='typeInput' placeholder='new type' autocomplete='off'>
                     </div>
                 </div>
-                <div id="addNewDate">
-                    <p id="promptDate">Date:</p>
-                    <input type="text" name="date" id="dateInput" placeholder="leave blank if today" autocomplete="off">
-                </div>
-                <button id="saveLift">Save</button>
+                <button class="form-submit">Save Lift</button>
             </form>
         </div>
     </div>
@@ -138,22 +136,22 @@ var lifts = {{ lifts|json_encode|raw }};
 console.log(lifts);
 var bodyWeights = {{ bodyweights|json_encode|raw }}
 
-$('#dateInput').mask("99/99/9999", { placeholder: "mm/dd/yyyy" });
+$('#date-input').mask("99/99/9999", { placeholder: "mm/dd/yyyy" });
 
 $('#choose-lift').change(function() {
     buildLiftChart();
 });
 
-$('#lifttypes').change(function() {
-    if ($('#lifttypes').val() == 'new') {
-        $('#lifttypes').hide();
+$('#select-lift-type').change(function() {
+    if ($('#select-lift-type').val() == 'new') {
+        $('#select-lift-type').hide();
         $('#newType').css('display', 'block');
     }
 });
 
 $('#exitNewLift').click(function() {
-    $('#lifttypes').show();
-    $('#lifttypes').val('select')
+    $('#select-lift-type').show();
+    $('#select-lift-type').val('select')
     $('#newType').css('display', 'none');
 });
 

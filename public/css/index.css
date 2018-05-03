@@ -68,6 +68,25 @@ p {
 .select {
 	margin-bottom: 8px;
 	margin-top: 0px;
+	-webkit-appearance: none;
+   	-moz-appearance: none;
+   	appearance: none;
+	padding: 1px 4px;
+	width: 20%;
+	text-align: left;
+}
+
+.form-submit {
+	padding: 2% 8%;
+	background-color: white;
+	background: none;
+	border-radius: 5px;
+	border: 1px solid #EEEEF2;
+	color: #E74C3C;
+	font-size: 12px;
+	float: right;
+	font-weight: 200;
+	cursor: pointer;
 }
 
 /* navigation */
@@ -141,14 +160,42 @@ p {
 
 .lift-graph {
 	float: right;
-	width: 50%
+	width: 55%
 }
 
 .new-lift {
 	float: left;
-	width: 35%;
+	width: 30%;
 }
 
 .lift-chart-container {
 	height: 240px;
+}
+
+.lift-field {
+	width: 100%;
+	padding: 5px 0;
+}
+
+.lift-prompt {
+	font-size: 14px;
+	font-weight: 200;
+	padding: 8px 0px;
+}
+
+.lift-input {
+	border: 1px solid #EEEEF2;
+	border-radius: 4px;
+	font-size: 12px;
+	padding: 6px 1.5%;
+	font-weight: 200;
+	text-align: left;
+	width: 97%;
+}
+
+.select-wide {
+	width: 40%;
+	padding: 5px 5px;
+	margin: 10px 0;
+	display: block;
 }
