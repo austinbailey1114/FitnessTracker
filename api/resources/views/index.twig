@@ -1,0 +1,284 @@
+{% extends '/templates/app.twig' %}
+{% block content %}
+<!-- https://dribbble.com/shots/4549955-Daily-18 -->
+<link rel="stylesheet" href="{{ base_url() }}/css/index.css">
+<div class="top">
+    <div class="top-left inline">
+        <div class="title inline">
+            <img class="image" src="./images/hugeIcon.png" height="40" width="40">
+            <p class="header" align="center">Dashboard</p>
+        </div>
+        <div class="links-container inline">
+            <a href="https://github.com/austinbailey1114/LiftAppSite" class="link">About</a>
+            <a href="https://github.com/austinbailey1114/iOS" class="link">The App</a>
+        </div>
+    </div>
+    <div class="dropdown inline">
+        <a class="link name" href="#">{{name}}</a>
+        <div class="drop-content">
+            <a href="{{ path_for('logout') }}" class="link">Log Out</a>
+        </div>
+    </div>
+    <!--<img class="userIcon" src="./images/userIcon.png" height="52" width="52">-->
+</div>
+<div class="dashboard">
+    <div class="lifts-container container">
+        <div class="lift-graph inline container-child">
+            <div>
+                <h2 class="header-small inline">Your Lift Progress</h2>
+                <a class="link-small inline" href="{{ path_for('lift.table') }}">View as Table</a>
+            </div>
+            <div class="select-container">
+                <select class="select" id="choose-lift">
+                    {% for type in lifttypes %}
+                        <option value="{{ type.name }}">{{ type.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="lift-chart-container">
+                <canvas id="lift-chart"></canvas>
+            </div>
+        </div>
+        <div class="new-lift inline container-child">
+            <form action="{{ path_for('lift.post') }}" method="post">
+                <div class="lift-field">
+                    <p class="lift-prompt">Weight</p>
+                    <input class="numeric-input lift-input" type="text" name="weight" placeholder="pounds" autocomplete="off">
+                </div>
+                <div class="lift-field">
+                    <p class="lift-prompt">Reps</p>
+                    <input class="numeric-input lift-input" type="text" name="reps" placeholder="repetitions" autocomplete="off">
+                </div>
+                <div class="lift-field">
+                    <p class="lift-prompt">Date</p>
+                    <input id="date-input" class="lift-input" type="text" name="date" placeholder="today" autocomplete="off">
+                </div>
+                <div class="lift-field">
+                    <p class="lift-prompt inline">Type</p>
+                    <select id="select-lift-type" class="select select-wide" name='liftType'>
+                        <option value="select">-- Select Type--</option>
+                        <option value="new">New</option>
+                        {% for type in lifttypes %}
+                            <option value="{{ type.name }}">{{ type.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="newType" style="display: none">
+                        <button id='exitNewLift' type=button>
+                            <img src='./images/xicon.png' height='15' width='15' style='margin-right: 5px;'>
+                        </button>
+                        <input class="lift-input" type='text' name='newType' id='typeInput' placeholder='new type' autocomplete='off'>
+                    </div>
+                </div>
+                <button class="form-submit">Save Lift</button>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="food-total container-child inline">
+            <div class="food-total-field">
+                <p class="food-total-prompt">Calories</p>
+                <p class="food-total-value">{{ nutrientCounts.cals}}</p>
+            </div>
+            <div class="food-total-field">
+                <p class="food-total-prompt">Fat</p>
+                <p class="food-total-value">{{ nutrientCounts.fat}}</p>
+            </div>
+            <div class="food-total-field">
+                <p class="food-total-prompt">Carbs</p>
+                <p class="food-total-value">{{ nutrientCounts.carbs}}</p>
+            </div>
+            <div class="food-total-field">
+                <p class="food-total-prompt">Protein</p>
+                <p class="food-total-value">{{ nutrientCounts.protein}}</p>
+            </div>
+        </div>
+        <div class="container-child inline food-stuff">
+            <div class="new-food">
+                <form class="food-form" action="#" method="post">
+                    <input type="text" name="searchField" class="food-search" placeholder="Search food database">
+                    <button class="form-submit food-search-button">Search</button>
+                </form>
+            </div>
+            <div class="food-history">
+                {% for food in foods %}
+                    <p class="food-history-item">{{ food.name }} - {{ food.date }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="bodyweight-graph container-child inline">
+            <div>
+                <p class="header-small inline">Bodyweight</p>
+                <a class="link-small inline" href="{{ path_for('bodyweight.table') }}">View as Table</a>
+            </div>
+            <div class="bodyweight-chart-container">
+                <canvas id="bodyweight-chart"></canvas>
+            </div>
+        </div>
+        <div class="new-weight container-child inline">
+            <form class="bodyweight-form" action="{{ path_for('bodyweight.post') }}" method="post">
+                <div class="bodyweight-field">
+                    <p class="bodyweight-field-prompt">Weight</p>
+                    <input class="numeric-input bodyweight-input" type="text" name="weight" placeholder="pounds">
+                </div>
+                <button class="form-submit form-submit-bodyweight">Update</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="{{ base_url() }}/js/swal.js"></script>
+<script src="{{ base_url() }}/js/jquery.maskedinput.js"></script>
+<script type="text/javascript">
+
+var lifts = {{ lifts|json_encode|raw }};
+
+console.log(lifts);
+var bodyWeights = {{ bodyweights|json_encode|raw }}
+
+$('#date-input').mask("99/99/9999", { placeholder: "mm/dd/yyyy" });
+
+$('#choose-lift').change(function() {
+    buildLiftChart();
+});
+
+$('#select-lift-type').change(function() {
+    if ($('#select-lift-type').val() == 'new') {
+        $('#select-lift-type').hide();
+        $('#newType').css('display', 'block');
+    }
+});
+
+$('#exitNewLift').click(function() {
+    $('#select-lift-type').show();
+    $('#select-lift-type').val('select')
+    $('#newType').css('display', 'none');
+});
+
+$('form').submit(function(event) {
+    event.preventDefault();
+    var hasSwaled = false;
+    $('.numeric-input').each(function(index, element) {
+        if(isNaN(element.value)) {
+            swal('One of your inputs is not a number!', 'Please check that all inputs have a numerical value', 'error');
+            hasSwaled = true;
+            return;
+        }
+    });
+    if (!hasSwaled) event.target.submit();
+});
+
+function buildLiftChart() {
+    var type = $('#choose-lift').val();
+    var xAxis = [];
+    var yAxis = [];
+    for (var i = 0; i < lifts.length; i++) {
+        // If the lift is of the selected type
+        if(lifts[i].type == type) {
+            if (xAxis.length > 0) {
+                // Find the index of the date of the current item
+                var index = xAxis.findIndex(function(element) {
+                    return element == lifts[i].date;
+                });
+                // If the date already exists, check if the corresponding lift (in the y axis) needs to be updated
+                if (index != -1) {
+                    // Only change the lift if the 1RM of the current index is larger
+                    if (yAxis[index] < (lifts[i].weight * (1 + (lifts[i].reps  / 30)))) {
+                        yAxis[index] = lifts[i].weight * (1 + (lifts[i].reps  / 30));
+                    }
+                } else {
+                    xAxis.push(lifts[i].date);
+                    yAxis.push(lifts[i].weight * (1 + (lifts[i].reps  / 30)));
+                }
+            } else {
+                xAxis.push(lifts[i].date);
+                yAxis.push(lifts[i].weight * (1 + (lifts[i].reps  / 30)));
+            }
+
+        }
+    }
+
+    // Convert dates to neater format
+    for (var i = 0; i < xAxis.length; i++) {
+        var element = new Date(xAxis[i]);
+        var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
+        xAxis[i] = newDate;
+    }
+
+    var ctx = document.getElementById('lift-chart').getContext('2d');
+    var chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: xAxis,
+        datasets: [{
+            borderColor: 'rgb(231,76,60)',
+            backgroundColor: 'rgba(231,76,60,0.3',
+            fill: true,
+            data: yAxis,
+            pointBackgroundColor: 'rgb(231,76,60)',
+
+        }]
+    },
+
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+            display: false
+         },
+    }
+    });
+
+    $('#lift-chart').hide().fadeIn(1000);
+}
+
+function buildWeightChart() {
+    var xAxis = [];
+    var yAxis = [];
+    for (var i = 0; i < bodyWeights.length; i++) {
+        xAxis.push(bodyWeights[i].date);
+        yAxis.push(bodyWeights[i].weight);
+    }
+
+    // Convert dates to neater format
+    for (var i = 0; i < xAxis.length; i++) {
+        var element = new Date(xAxis[i]);
+        var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
+        xAxis[i] = newDate;
+    }
+
+    var ctx = document.getElementById('bodyweight-chart').getContext('2d');
+    var chart = new Chart(ctx, {
+    	type: 'line',
+
+    	data: {
+    	    labels: xAxis,
+    	    datasets: [{
+    	        borderColor: 'rgb(231,76,60)',
+    	        backgroundColor: 'rgba(231,76,60,0.3',
+    	        fill: true,
+    	        pointBackgroundColor: 'rgb(231,76,60)',
+    	        data: yAxis,
+    	    }]
+    	},
+
+    	options: {
+    	    responsive: true,
+    	    maintainAspectRatio: false,
+    	    legend: {
+    	        display: false
+    	     },
+    	}
+    });
+}
+
+
+buildWeightChart();
+
+buildLiftChart();
+</script>
+{% endblock %}

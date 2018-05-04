@@ -1,0 +1,131 @@
+body {
+	font-family: 'Roboto' !important;
+	margin:0;
+	padding: 0;
+	background-color: #FBFBFB;
+	text-align: center;
+}
+
+div {
+	margin:0;
+	padding: 0;
+}
+
+h2 {
+	font-weight: 300;
+	
+}
+
+h1 {
+	font-weight: 300;
+	
+}
+
+h3 {
+	font-weight: 300;
+}
+
+p {
+	font-weight: 200;
+	line-height: 28px;
+}
+
+input {
+	padding:5px 15px; 
+    border:2px solid #ccc; 
+    width: 200px;
+    margin: auto;
+    border-bottom: 1px solid #ccc;
+    border-top: 0px solid #ccc;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    text-align: center;
+
+}
+
+button {
+	color: #E74C3C;
+  height: 60px;
+  width: 22%;
+  border: 1px solid #DCDCDC;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 13px;
+  font-weight: 200;
+  float: right;
+  margin-top: 4%;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+input {
+	border: 0px solid gray;
+	line-height: 46px;
+	text-align: right;
+}
+
+::-webkit-input-placeholder {
+   font-size: 13px;
+   font-weight: 200;
+}
+
+input {
+	font-weight: 200;
+	font-size: 13px;
+}
+
+#container {
+	margin: auto;
+	width: 33%;
+}
+
+#promptName, #nameInput {
+	display: inline-block;
+}
+
+#promptUsername, #usernameInput {
+	display: inline-block;
+}
+
+#promptPassword, #passwordInput {
+	display: inline-block;
+}
+
+#promptName, #promptUsername, #promptPassword, #promptEmail {
+	float: left;
+	margin-left: 5%;
+}
+
+#usernameInput, #passwordInput, #nameInput, #emailInput {
+	float: right;
+	margin-right: 5%;
+	line-height: 50px;
+}
+
+#nameDiv, #usernameDiv, #passwordDiv, #emailDiv {
+	margin: auto;
+	margin-top: 50px;
+	background-color: white;
+	border: 1px solid #DCDCDC;
+	border-radius: 5px;
+	width: 100%;
+	height: 62px;
+}
+
+#button {
+	margin-top: 50px;
+}
+
+
+
+
+
+
+
+
+

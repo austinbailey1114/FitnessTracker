@@ -1,0 +1,114 @@
+body {
+	font-family: 'Roboto' !important;
+	margin:0;
+	padding: 0;
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+div {
+	margin:0;
+	padding: 0;
+  text-align: center;
+}
+
+h2 {
+	font-weight: 300;
+  text-align: center;
+	
+}
+
+h1 {
+	font-weight: 300;
+	
+}
+a {
+  font-family: 'Roboto', sans-serif;
+  color: #E74C3C;
+  text-decoration: none;
+  text-align: left;
+  margin-top: 30px;
+  margin-left: 20px;
+  line-height: 0px;
+  font-weight: 200;
+}
+
+
+input {
+	padding:5px 15px; 
+    border:2px solid #ccc; 
+    width: 200px;
+    margin: auto;
+    border-bottom: 1px solid #ccc;
+    border-top: 0px solid #ccc;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    text-align: center;
+
+}
+
+button {
+	color: #E74C3C;
+  height: 100%;
+  width: 80%;
+  border: 0px solid #DCDCDC;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+select {
+	-webkit-appearance: none; 
+   	-moz-appearance: none;
+   	appearance: none;
+   	width: 20%;
+   	height: 20px;
+   	text-align: center;
+ }
+
+ input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+td, th {
+    border-bottom: 1px solid #DCDCDC;
+    text-align: left;
+    padding: 8px;
+    margin-left: 0px;
+    margin-right: 0px;
+    font-weight: 200;
+}
+
+#addNewFood {
+  margin-bottom: 10%;
+}
+
+#topContainer {
+  margin-top: 5%;
+  margin-bottom: 2%;
+  width: 30%;
+  border: 1px solid #DCDCDC;
+  border-radius: 5px;
+  background-color: white;
+  text-align: center;
+  margin-left: 35%;
+
+}
+
+#results {
+  width: 60%;
+  margin-left: 20%;
+  text-align: center;
+  border: 1px solid #DCDCDC;
+  border-radius: 5px;
+  background-color: white;
+}
+
+#resultsTable {
+  width: 100%;
+}
+

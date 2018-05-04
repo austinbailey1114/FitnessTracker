@@ -1,0 +1,30 @@
+{% extends '/templates/app.twig' %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ base_url() }}/css/table.css">
+<div id="topContainer">
+    <h2 align="center">Lift History</h2>
+</div>
+    <table id="table">
+        <tr>
+            <th>Type</th>
+            <th>Weight</th>
+            <th>Reps</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+        {% for lift in lifts %}
+            <tr>
+                <td>{{ lift.type }}</td>
+                <td>{{ lift.weight }}</td>
+                <td>{{ lift.reps }}</td>
+                <td>{{ lift.date }}</td>
+                <td><a href="{{ path_for('lift.delete', { 'id': lift.id }) }}"><button>Delete</button></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $('#table').hide().fadeIn(1000);
+</script>
+{% endblock %}
