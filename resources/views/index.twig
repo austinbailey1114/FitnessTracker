@@ -51,7 +51,7 @@
                 </div>
                 <div class="lift-field">
                     <p class="lift-prompt">Date</p>
-                    <input id="date-input" class=" lift-input" type="text" name="date" placeholder="leave blank if today" autocomplete="off">
+                    <input id="date-input" class="lift-input" type="text" name="date" placeholder="today" autocomplete="off">
                 </div>
                 <div class="lift-field">
                     <p class="lift-prompt inline">Type</p>
@@ -74,51 +74,55 @@
         </div>
     </div>
     <div class="container">
-        <div class="food-total container-child">
-            <p id="displayCals">Today's calories: {{ nutrientCounts.cals }}</p>
-            <p id="displayFat">Today's fat: {{ nutrientCounts.fat }}</p>
-            <p id="displayCarbs">Today's carbs: {{ nutrientCounts.carbs }}</p>
-            <p id="displayProtein">Today's protein: {{ nutrientCounts.protein }}</p>
+        <div class="food-total container-child inline">
+            <div class="food-total-field">
+                <p class="food-total-prompt">Calories</p>
+                <p class="food-total-value">{{ nutrientCounts.cals}}</p>
+            </div>
+            <div class="food-total-field">
+                <p class="food-total-prompt">Fat</p>
+                <p class="food-total-value">{{ nutrientCounts.fat}}</p>
+            </div>
+            <div class="food-total-field">
+                <p class="food-total-prompt">Carbs</p>
+                <p class="food-total-value">{{ nutrientCounts.carbs}}</p>
+            </div>
+            <div class="food-total-field">
+                <p class="food-total-prompt">Protein</p>
+                <p class="food-total-value">{{ nutrientCounts.protein}}</p>
+            </div>
         </div>
-        <div class="container-child">
+        <div class="container-child inline food-stuff">
             <div class="new-food">
-                <form id="searchFood" action="./foods/search" method="post">
-                    <div id="enterfood">
-                        <h2 id="newFoodTitle">Search Foods: </h2>
-                        <input type="text" name="searchField" id="searchInput" placeholder="Food, brand, etc.">
-                    </div>
-                    <div id="foodbutton">
-                        <button id="search">Search</button>
-                    </div>
+                <form class="food-form" action="#" method="post">
+                    <input type="text" name="searchField" class="food-search" placeholder="Search food database">
+                    <button class="form-submit food-search-button">Search</button>
                 </form>
             </div>
-            <div id="foodHistoryContainer">
-                <h3>Food Today</h3>
-                <div id="foodHistory">
-                    {% for food in foods %}
-                        <p>{{ food.name }}</p>
-                    {% endfor %}
-                </div>
+            <div class="food-history">
+                {% for food in foods %}
+                    <p class="food-history-item">{{ food.name }} - {{ food.date }}</p>
+                {% endfor %}
             </div>
         </div>
     </div>
     <div class="container">
-        <div class="bodyweightGraph container-child">
-            <h2 id="bodyweighttabletitle">Bodyweight</h2>
-            <a id="bodyweighttable" href="{{ path_for('bodyweight.table') }}">View as Table</a>
-            <div id ="bodyweightGraphDiv">
-                <canvas id="bodyweightChart"></canvas>
+        <div class="bodyweight-graph container-child inline">
+            <div>
+                <p class="header-small inline">Bodyweight</p>
+                <a class="link-small inline" href="{{ path_for('bodyweight.table') }}">View as Table</a>
+            </div>
+            <div class="bodyweight-chart-container">
+                <canvas id="bodyweight-chart"></canvas>
             </div>
         </div>
-        <div class="newWeight container-child">
-            <form action="{{ path_for('bodyweight.post') }}" method="post">
-                <div id="promptBodyweight">
-                    <h2 id="weightTitle">Update: </h2>
-                    <input class="numeric-input" type="text" name="weight" id="newBodyWeight" placeholder="pounds">
+        <div class="new-weight container-child inline">
+            <form class="bodyweight-form" action="{{ path_for('bodyweight.post') }}" method="post">
+                <div class="bodyweight-field">
+                    <p class="bodyweight-field-prompt">Weight</p>
+                    <input class="numeric-input bodyweight-input" type="text" name="weight" placeholder="pounds">
                 </div>
-                <div id="addBodyweightButtonDiv">
-                    <button id="add">Update</button>
-                </div>
+                <button class="form-submit form-submit-bodyweight">Update</button>
             </form>
         </div>
 
@@ -247,7 +251,7 @@ function buildWeightChart() {
         xAxis[i] = newDate;
     }
 
-    var ctx = document.getElementById('bodyweightChart').getContext('2d');
+    var ctx = document.getElementById('bodyweight-chart').getContext('2d');
     var chart = new Chart(ctx, {
     	type: 'line',
 
