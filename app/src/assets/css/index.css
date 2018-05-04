@@ -1,0 +1,295 @@
+/* GLOBAL */
+
+* {
+	transition: 0.2s ease all;
+}
+
+body {
+    font-family: 'Roboto' !important;
+	margin:0;
+	padding: 0;
+	background-color: #f7f7f9;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.header {
+	display: inline-block;
+	font-size: 30px;
+	font-weight: 200;
+	line-height: 65px;
+	padding-right: 10px;
+}
+
+.link {
+	color: #E74C3C;
+	text-decoration: none;
+	padding: 10px;
+	font-weight: 300;
+	font-size: 18px;
+}
+
+.link-small {
+	color: #E74C3C;
+	text-decoration: none;
+	font-weight: 300;
+	font-size: 16px;
+	float: right;
+	padding: 10px 0;
+}
+
+.header-small {
+	display: inline-block;
+	font-size: 23px;
+	font-weight: 200;
+	line-height: 45px;
+	padding-right: 5px;
+	margin: 10px;
+}
+
+.image {
+	vertical-align: middle;
+	padding: 10px;
+	border-radius: 20px;
+}
+
+.select-container {
+	width: 100%;
+	text-align: center;
+}
+
+.select {
+	margin-bottom: 8px;
+	margin-top: 0px;
+	-webkit-appearance: none;
+   	-moz-appearance: none;
+   	appearance: none;
+	padding: 1px 4px;
+	width: 20%;
+	text-align: left;
+	border: 1px solid lightgray;
+}
+
+.form-submit {
+	padding: 2% 8%;
+	background-color: white;
+	background: none;
+	border-radius: 5px;
+	border: 1px solid #EEEEF2;
+	color: #E74C3C;
+	font-size: 12px;
+	float: right;
+	font-weight: 200;
+	cursor: pointer;
+}
+
+/* navigation */
+
+.top {
+    height: 65px;
+	border-bottom: 1px;
+	-webkit-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	-moz-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	background: linear-gradient(to right, #f7f7f9 , white);
+}
+
+.top-left {
+	float: left;
+}
+
+.title {
+	border-right: 1.3px solid #d6d6d6;
+}
+
+.title > * {
+	vertical-align: middle;
+}
+
+.dropdown {
+	float: right;
+	text-align: right;
+}
+
+.name {
+	line-height: 65px;
+}
+
+.drop-content {
+	display: none;
+	position: absolute;
+    background-color: white;
+	text-align: left;
+	width: auto;
+	z-index: 1;
+}
+
+.drop-content a {
+	display: block;
+}
+
+.dropdown:hover .drop-content {
+	display: block;
+}
+
+/* DASHBAORD */
+
+.container {
+	height: 350px;
+	margin: 30px 30px;
+	padding: 10px 10px;
+}
+
+.container-child {
+	-webkit-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	-moz-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	border-radius: 5px;
+	background-color: white;
+	padding: 0 2.5%;
+	height: 100%;
+}
+
+/* lift div */
+
+.lift-graph {
+	float: right;
+	width: 55%
+}
+
+.new-lift {
+	float: left;
+	width: 30%;
+}
+
+.lift-chart-container {
+	height: 240px;
+}
+
+.lift-field {
+	width: 100%;
+	padding: 5px 0;
+}
+
+.lift-prompt {
+	font-size: 14px;
+	font-weight: 200;
+	padding: 8px 0px;
+}
+
+.lift-input {
+	border: 1px solid #EEEEF2;
+	border-radius: 4px;
+	font-size: 12px;
+	padding: 6px 1.5%;
+	font-weight: 200;
+	text-align: left;
+	width: 97%;
+}
+
+.select-wide {
+	width: 40%;
+	padding: 5px 5px;
+	margin: 10px 0;
+	display: block;
+}
+
+/* nutrition */
+
+.food-stuff {
+	float: left;
+	width: 45%;
+}
+
+.food-total {
+	float: right;
+	width: 40%;
+}
+
+.food-total-prompt {
+	font-weight: 200;
+	padding: 10px;
+}
+
+.food-total-value {
+	font-weight: 200;
+	padding: 0 50px;
+}
+
+.food-form {
+	border-bottom: 1px solid #EEEEF2;
+}
+
+.food-search {
+	padding: 10px 10px;
+	margin: 20px;
+	border: 1px solid #DCDCDC;
+	border-radius: 5px;
+	font-size: 16px;
+	text-align: left;
+	font-weight: 200;
+	width: 60%;
+}
+
+.food-search-button {
+	border: 1px solid #DCDCDC;
+	padding: 12px 4%;
+	margin: 20px;
+	font-size: 14px;
+}
+
+.food-history {
+	height: 250px;
+	width: 100%;
+	overflow-y: scroll;
+}
+
+.food-history-item {
+	font-weight: 200;
+	padding: 5px;
+}
+
+/* bodyweight */
+
+.new-weight {
+	float: right;
+	width: 30%;
+	height: 120px;
+}
+
+.bodyweight-graph {
+	float: left;
+	width: 55%;
+}
+
+.bodyweight-chart-container {
+	height: 250px;
+	margin-top: 10px;
+}
+
+.bodyweight-field-prompt {
+	font-size: 14px;
+	font-weight: 200;
+	padding: 8px 0px;
+}
+
+.bodyweight-input {
+	border: 1px solid #EEEEF2;
+	border-radius: 4px;
+	font-size: 12px;
+	padding: 6px 1.5%;
+	font-weight: 200;
+	text-align: left;
+	width: 97%;
+}
+
+.form-submit-bodyweight {
+	margin: 10px 0;
+}
