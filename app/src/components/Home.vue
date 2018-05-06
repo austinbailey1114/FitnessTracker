@@ -134,11 +134,7 @@ export default {
             name: 'Austin Bailey'
         }
     },
-    created: function() {
-        console.log('created');
-    },
     mounted: function() {
-        console.log('mounted');
         console.log(this.key());
     },
     methods: {

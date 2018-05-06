@@ -1,5 +1,6 @@
 <?php
 use Carbon\Middleware\AuthMiddleware;
+use Carbon\Middleware\APIMiddleware;
 
 $app->group('', function() {
 	$this->get('/home', 'DashboardController:index')->setName('home');
@@ -37,7 +38,9 @@ $app->group('/api', function() {
 	$this->group('/auth', function() {
 		$this->post('/signin', 'APIController:postAuth');
 	});
+});
 
+$app->group('/api', function() {
 	$this->group('/lifts', function() {
 		$this->get('/{id}', 'APIController:getLift');
 		$this->post('/', 'APIController:postLift');
@@ -61,5 +64,4 @@ $app->group('/api', function() {
 		$this->post('/', 'UserController:postUser');
 	});
 
-
-});
+})->add(new APIMiddleware($container));

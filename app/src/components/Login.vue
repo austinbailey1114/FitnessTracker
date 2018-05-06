@@ -23,11 +23,10 @@ export default {
                 $('#form').serialize()
             ).done(function(data) {
                 if (data['success']) {
-                    console.log('authorized');
-                    this.setKey('boop');
+                    this.setKey(data['key']);
                     this.$router.push({ path: '/' })
                 } else {
-                    console.log('failed');
+                    console.log(data);
                 }
             }.bind(this));
         },
