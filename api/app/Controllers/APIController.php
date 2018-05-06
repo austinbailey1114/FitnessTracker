@@ -5,6 +5,7 @@ use Carbon\Models\Lift;
 use Carbon\Models\Bodyweight;
 use Illuminate\Database\QueryException;
 use Carbon\Models\User;
+use Carbon\Models\LiftType;
 
 class APIController extends Controller {
     public function postAuth($request, $response) {
@@ -26,6 +27,7 @@ class APIController extends Controller {
             $data = [
                 'success' => true,
                 'key' => $key,
+                'id' => $user->id
             ];
             $user->update([
                 'exchange_code' => $key,
@@ -103,6 +105,12 @@ class APIController extends Controller {
         } catch(QueryException $e) {
             return $response->withStatus(400);
         }
+    }
+
+    public function getLifttypes($request, $response, $args) {
+        $lifttypes = LiftType::where('user', $args['id'])->get();
+
+        return $response->withJson($lifttypes);
     }
 }
 

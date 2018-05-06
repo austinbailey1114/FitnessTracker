@@ -38,30 +38,42 @@ $app->group('/api', function() {
 	$this->group('/auth', function() {
 		$this->post('/signin', 'APIController:postAuth');
 	});
+
+	$this->group('/lifts', function() {
+		$this->get('/{id}', 'APIController:getLift');
+	});
+
+	$this->group('/bodyweights', function() {
+		$this->get('/{id}', 'APIController:getBodyweight');
+	});
+
+	$this->group('/lifttypes', function() {
+		$this->get('/{id}', 'APIController:getLifttypes');
+	});
+
+	$this->group('/foods', function() {
+		$this->get('/{id}', 'FoodController:getFoods');
+	});
+
+	$this->group('/users', function() {
+		$this->post('/', 'UserController:postUser');
+	});
 });
 
 $app->group('/api', function() {
 	$this->group('/lifts', function() {
-		$this->get('/{id}', 'APIController:getLift');
 		$this->post('/', 'APIController:postLift');
 		$this->delete('/', 'APIController:deleteLift');
 	});
 	$this->group('/bodyweights', function() {
-		$this->get('/{id}', 'APIController:getBodyweight');
 		$this->post('/', 'APIController:postBodyweight');
 		$this->delete('/', 'BodyweightController:deleteBodyweight');
 	});
 	$this->group('/lifttypes', function() {
-		$this->get('/{id}', 'LifttypesController:getLifttypes');
 		$this->post('/', 'LifttypesController:postLiftType');
 	});
 	$this->group('/foods', function() {
-		$this->get('/{id}', 'FoodController:getFoods');
 		$this->get('/search/{query}', 'FoodController:searchFoods');
 		//todo when nutrition api is up
 	});
-	$this->group('/users', function() {
-		$this->post('/', 'UserController:postUser');
-	});
-
 })->add(new APIMiddleware($container));

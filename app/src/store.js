@@ -6,19 +6,19 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
-        safelyStoredNumber: 0,
-        isLoggedIn: false,
-        key: null
+        key: null,
+        user_id: null
     },
     getters: {
-        safelyStoredNumber: state => state.safelyStoredNumber,
-        isLoggedIn: state => state.isLoggedIn,
-        key: state => state.key
+        getKey: state => state.key,
+        getId: state => state.user_id
     },
     mutations: {
         setKey(state, key) {
             state.key = key;
-            state.isLoggedIn = true;
+        },
+        setId(state, user_id) {
+            state.user_id = user_id;
         }
     },
     plugins: [createPersistedState()]

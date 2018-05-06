@@ -29,8 +29,8 @@
                         <a class="link-small inline" href="">View as Table</a>
                     </div>
                     <div class="select-container">
-                        <select class="select" id="choose-lift">
-                            <option value=""></option>
+                        <select @change="buildLiftChart()" v-model="selectedLiftChartType" class="select" id="choose-lift">
+                            <option v-for="type in lifttypes" :val="type.name">{{ type.name }}</option>
                         </select>
                     </div>
                     <div class="lift-chart-container">
@@ -127,19 +127,103 @@
 import '@/assets/css/index.css'
 import $ from 'jquery'
 import { mapGetters } from 'vuex'
+import Chart from 'chart.js'
 
 export default {
     data: function() {
         return {
-            name: 'Austin Bailey'
+            name: 'Austin Bailey',
+            lifts: [],
+            bodyweights: [],
+            lifttypes: [],
+            selectedLiftChartType: null
         }
     },
+    created: function() {
+        $.get(
+            'http://localhost:8080/api/lifts/' + this.getId(),
+        ).done(function(data) {
+            this.lifts = data;
+        }.bind(this));
+
+        $.get(
+            'http://localhost:8080/api/lifttypes/' + this.getId(),
+        ).done(function(data) {
+            this.lifttypes = data;
+            this.selectedLiftChartType = data[0].name;
+            this.buildLiftChart();
+        }.bind(this))
+    },
     mounted: function() {
-        console.log(this.key());
+        console.log(this.getKey(), this.getId());
     },
     methods: {
+        buildLiftChart: function() {
+            var type = this.selectedLiftChartType;
+            console.log(type);
+            var xAxis = [];
+            var yAxis = [];
+            for (var i = 0; i < this.lifts.length; i++) {
+                // If the lift is of the selected type
+                if(this.lifts[i].type == type) {
+                    if (xAxis.length > 0) {
+                        // Find the index of the date of the current item
+                        var index = xAxis.findIndex(function(element) {
+                            return element == this.lifts[i].date;
+                        }.bind(this));
+                        // If the date already exists, check if the corresponding lift (in the y axis) needs to be updated
+                        if (index != -1) {
+                            // Only change the lift if the 1RM of the current index is larger
+                            if (yAxis[index] < (this.lifts[i].weight * (1 + (this.lifts[i].reps  / 30)))) {
+                                yAxis[index] = this.lifts[i].weight * (1 + (this.lifts[i].reps  / 30));
+                            }
+                        } else {
+                            xAxis.push(this.lifts[i].date);
+                            yAxis.push(this.lifts[i].weight * (1 + (this.lifts[i].reps  / 30)));
+                        }
+                    } else {
+                        xAxis.push(this.lifts[i].date);
+                        yAxis.push(this.lifts[i].weight * (1 + (this.lifts[i].reps  / 30)));
+                    }
+
+                }
+            }
+
+            // Convert dates to neater format
+            for (var i = 0; i < xAxis.length; i++) {
+                var element = new Date(xAxis[i]);
+                var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
+                xAxis[i] = newDate;
+            }
+
+            var ctx = document.getElementById('lift-chart').getContext('2d');
+            var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: xAxis,
+                datasets: [{
+                    borderColor: 'rgb(231,76,60)',
+                    backgroundColor: 'rgba(231,76,60,0.3',
+                    fill: true,
+                    data: yAxis,
+                    pointBackgroundColor: 'rgb(231,76,60)',
+
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                 },
+            }
+            });
+
+        },
         ...mapGetters([
-            'key'
+            'getKey',
+            'getId'
         ])
     }
 }

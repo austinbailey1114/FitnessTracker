@@ -23,7 +23,9 @@ export default {
                 $('#form').serialize()
             ).done(function(data) {
                 if (data['success']) {
+                    console.log(data['id']);
                     this.setKey(data['key']);
+                    this.setId(data['id']);
                     this.$router.push({ path: '/' })
                 } else {
                     console.log(data);
@@ -31,7 +33,8 @@ export default {
             }.bind(this));
         },
         ...mapMutations([
-            'setKey'
+            'setKey',
+            'setId'
         ]),
     }
 }
