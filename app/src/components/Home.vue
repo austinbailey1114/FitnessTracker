@@ -38,14 +38,14 @@
                     </div>
                 </div>
                 <div class="new-lift inline container-child">
-                    <form action="" method="post">
+                    <form>
                         <div class="lift-field">
                             <p class="lift-prompt">Weight</p>
-                            <input class="numeric-input lift-input" type="text" name="weight" placeholder="pounds" autocomplete="off">
+                            <input id="lift-input-weight" class="numeric-input lift-input" type="text" name="weight" placeholder="pounds" autocomplete="off">
                         </div>
                         <div class="lift-field">
                             <p class="lift-prompt">Reps</p>
-                            <input class="numeric-input lift-input" type="text" name="reps" placeholder="repetitions" autocomplete="off">
+                            <input id="lift-input-reps" class="numeric-input lift-input" type="text" name="reps" placeholder="repetitions" autocomplete="off">
                         </div>
                         <div class="lift-field">
                             <p class="lift-prompt">Date</p>
@@ -56,16 +56,16 @@
                             <select id="select-lift-type" class="select select-wide" name='liftType'>
                                 <option value="select">-- Select Type--</option>
                                 <option value="new">New</option>
-                                    <option value=""></option>
+                                <option v-for="type in lifttypes" :val="type.name">{{ type.name }}</option>
                             </select>
                             <div id="newType" style="display: none">
                                 <button id='exitNewLift' type=button>
                                     <img src="@/assets/images/xicon.png" height='15' width='15' style='margin-right: 5px;'>
                                 </button>
-                                <input class="lift-input" type='text' name='newType' id='typeInput' placeholder='new type' autocomplete='off'>
+                                <input id="lift-input-type" class="lift-input" type='text' name='newType' placeholder='new type' autocomplete='off'>
                             </div>
                         </div>
-                        <button class="form-submit">Save Lift</button>
+                        <button @click.prevent="postLift()" class="form-submit">Save Lift</button>
                     </form>
                 </div>
             </div>
@@ -182,6 +182,31 @@ export default {
                 };
                 this.bodyweights.push(newBodyweight);
                 this.buildWeightChart();
+            }.bind(this));
+        },
+        postLift: function(event) {
+            $.post(
+                'http://localhost:8080/api/lifts/',
+                {
+                    weight: $('#lift-input-weight').val(),
+                    reps: $('#lift-input-reps').val(),
+                    date: $('#date-input').val(),
+                    type: $('#select-lift-type').val(),
+                    liftType: $('#select-lift-type').val(),
+                    key: this.getKey(),
+                    user: this.getId()
+                }
+            ).done(function(data) {
+                var d = new Date();
+                d.setHours(0,0,0,0);
+                var newLift = {
+                    weight: $('#lift-input-weight').val(),
+                    reps: $('#lift-input-reps').val(),
+                    type: $('#select-lift-type').val(),
+                    date: d
+                };
+                this.lifts.push(newLift);
+                this.buildLiftChart();
             }.bind(this));
         },
         buildLiftChart: function() {
