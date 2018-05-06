@@ -111,12 +111,12 @@
                     </div>
                 </div>
                 <div class="new-weight container-child inline">
-                    <form class="bodyweight-form" action="" method="post">
+                    <form class="bodyweight-form" method="post">
                         <div class="bodyweight-field">
                             <p class="bodyweight-field-prompt">Weight</p>
-                            <input class="numeric-input bodyweight-input" type="text" name="weight" placeholder="pounds">
+                            <input id="new-bodyweight-input" class="numeric-input bodyweight-input" type="text" name="weight" placeholder="pounds">
                         </div>
-                        <button class="form-submit form-submit-bodyweight">Update</button>
+                        <button @click.prevent="postBodyweight()" class="form-submit form-submit-bodyweight">Update</button>
                     </form>
                 </div>
             </div>
@@ -165,6 +165,25 @@ export default {
         console.log(this.getKey(), this.getId());
     },
     methods: {
+        postBodyweight: function() {
+            $.post(
+                'http://localhost:8080/api/bodyweights/',
+                {
+                    weight: $('#new-bodyweight-input').val(),
+                    key: this.getKey(),
+                    user: this.getId()
+                }
+            ).done(function(data) {
+                var d = new Date();
+                d.setHours(0,0,0,0);
+                var newBodyweight = {
+                    date: d,
+                    weight: $('#new-bodyweight-input').val()
+                };
+                this.bodyweights.push(newBodyweight);
+                this.buildWeightChart();
+            }.bind(this));
+        },
         buildLiftChart: function() {
             var type = this.selectedLiftChartType;
             console.log(type);
@@ -217,7 +236,6 @@ export default {
 
                 }]
             },
-
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -246,7 +264,6 @@ export default {
             var ctx = document.getElementById('bodyweight-chart').getContext('2d');
             var chart = new Chart(ctx, {
             	type: 'line',
-
             	data: {
             	    labels: xAxis,
             	    datasets: [{
@@ -257,7 +274,6 @@ export default {
             	        data: yAxis,
             	    }]
             	},
-
             	options: {
             	    responsive: true,
             	    maintainAspectRatio: false,
