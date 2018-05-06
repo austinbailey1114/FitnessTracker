@@ -1,11 +1,11 @@
 <template lang="html">
-    <div class="">
+    <div>
         <!-- https://dribbble.com/shots/4549955-Daily-18 -->
         <link rel="stylesheet" href="#">
         <div class="top">
             <div class="top-left inline">
                 <div class="title inline">
-                    <img class="image" src="" height="40" width="40">
+                    <img class="image" src="@/assets/images/hugeIcon.png" height="40" width="40">
                     <p class="header" align="center">Dashboard</p>
                 </div>
                 <div class="links-container inline">
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="dropdown inline">
-                <a class="link name" href="#">Austin</a>
+                <a class="link name" href="#">{{ name }}</a>
                 <div class="drop-content">
                     <a href="#" class="link">Log Out</a>
                 </div>
@@ -60,7 +60,7 @@
                             </select>
                             <div id="newType" style="display: none">
                                 <button id='exitNewLift' type=button>
-                                    <img src='' height='15' width='15' style='margin-right: 5px;'>
+                                    <img src="@/assets/images/xicon.png" height='15' width='15' style='margin-right: 5px;'>
                                 </button>
                                 <input class="lift-input" type='text' name='newType' id='typeInput' placeholder='new type' autocomplete='off'>
                             </div>
@@ -96,9 +96,7 @@
                         </form>
                     </div>
                     <div class="food-history">
-                        {% for food in foods %}
-                            <p class="food-history-item"></p>
-                        {% endfor %}
+                        <p class="food-history-item"></p>
                     </div>
                 </div>
             </div>
@@ -121,17 +119,26 @@
                         <button class="form-submit form-submit-bodyweight">Update</button>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
-
 </template>
-
 <script>
 import '@/assets/css/index.css'
-export default {
+import $ from 'jquery'
 
+export default {
+    data: function() {
+        return {
+            name: 'Austin Bailey'
+        }
+    },
+    created: function() {
+        console.log('created');
+    },
+    mounted: function() {
+        console.log('mounted');
+    }
 }
 </script>
 

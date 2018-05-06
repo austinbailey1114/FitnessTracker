@@ -4,8 +4,41 @@ namespace Carbon\Controllers;
 use Carbon\Models\Lift;
 use Carbon\Models\Bodyweight;
 use Illuminate\Database\QueryException;
+use Carbon\Models\User;
 
 class APIController extends Controller {
+    public function postAuth($request, $response) {
+        $username = $request->getParam('username');
+        $password = $request->getParam('password');
+
+        $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            $data = [
+                'success' => false,
+                'message' => 'User with that username does not exist',
+            ];
+            return $response->withJson($data)->withStatus(401);
+        }
+
+        if (password_verify($password, $user->password)) {
+            $key = md5($username . $password . time());
+            $data = [
+                'success' => true,
+                'key' => $key,
+            ];
+            $user->update([
+                'exchange_code' => $key,
+            ]);
+        } else {
+            $data = [
+                'success' => false,
+                'message' => 'Password did not match',
+            ];
+        }
+        return $response->withJson($data);
+    }
+
     public function getLift($request, $response, $args) {
         $lifts = Lift::where('user', $args['id'])->get();
 

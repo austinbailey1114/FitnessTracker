@@ -33,6 +33,11 @@ $app->get('/login', 'AuthController:getSignIn')->setName('auth.signin');
 $app->post('/login', 'AuthController:postSignIn')->setName('auth.signin');
 
 $app->group('/api', function() {
+
+	$this->group('/auth', function() {
+		$this->post('/signin', 'APIController:postAuth');
+	});
+
 	$this->group('/lifts', function() {
 		$this->get('/{id}', 'APIController:getLift');
 		$this->post('/', 'APIController:postLift');

@@ -10,6 +10,7 @@ class User extends Model {
         'name',
         'username',
         'password',
+        'exchange_code'
     ];
 
 }

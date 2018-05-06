@@ -5,11 +5,17 @@ import Home from '@/components/Home'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
+    mode: 'history',
+    routes: [
     {
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/scrap',
+      name: 'scrap',
+      component: { template: '<p>hello<p>'}
     }
-  ]
+    ]
 })
