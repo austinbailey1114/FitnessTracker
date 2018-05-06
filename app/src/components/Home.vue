@@ -126,6 +126,7 @@
 <script>
 import '@/assets/css/index.css'
 import $ from 'jquery'
+import { mapGetters } from 'vuex'
 
 export default {
     data: function() {
@@ -138,6 +139,12 @@ export default {
     },
     mounted: function() {
         console.log('mounted');
+        console.log(this.key());
+    },
+    methods: {
+        ...mapGetters([
+            'key'
+        ])
     }
 }
 </script>

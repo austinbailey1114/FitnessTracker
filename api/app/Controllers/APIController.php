@@ -18,7 +18,7 @@ class APIController extends Controller {
                 'success' => false,
                 'message' => 'User with that username does not exist',
             ];
-            return $response->withJson($data)->withStatus(401);
+            return $response->withJson($data);
         }
 
         if (password_verify($password, $user->password)) {
