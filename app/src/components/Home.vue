@@ -152,7 +152,14 @@ export default {
             this.lifttypes = data;
             this.selectedLiftChartType = data[0].name;
             this.buildLiftChart();
-        }.bind(this))
+        }.bind(this));
+
+        $.get(
+            'http://localhost:8080/api/bodyweights/' + this.getId(),
+        ).done(function(data) {
+            this.bodyweights = data;
+            this.buildWeightChart();
+        }.bind(this));
     },
     mounted: function() {
         console.log(this.getKey(), this.getId());
@@ -220,6 +227,45 @@ export default {
             }
             });
 
+        },
+        buildWeightChart: function() {
+            var xAxis = [];
+            var yAxis = [];
+            for (var i = 0; i < this.bodyweights.length; i++) {
+                xAxis.push(this.bodyweights[i].date);
+                yAxis.push(this.bodyweights[i].weight);
+            }
+
+            // Convert dates to neater format
+            for (var i = 0; i < xAxis.length; i++) {
+                var element = new Date(xAxis[i]);
+                var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
+                xAxis[i] = newDate;
+            }
+
+            var ctx = document.getElementById('bodyweight-chart').getContext('2d');
+            var chart = new Chart(ctx, {
+            	type: 'line',
+
+            	data: {
+            	    labels: xAxis,
+            	    datasets: [{
+            	        borderColor: 'rgb(231,76,60)',
+            	        backgroundColor: 'rgba(231,76,60,0.3',
+            	        fill: true,
+            	        pointBackgroundColor: 'rgb(231,76,60)',
+            	        data: yAxis,
+            	    }]
+            	},
+
+            	options: {
+            	    responsive: true,
+            	    maintainAspectRatio: false,
+            	    legend: {
+            	        display: false
+            	     },
+            	}
+            });
         },
         ...mapGetters([
             'getKey',
