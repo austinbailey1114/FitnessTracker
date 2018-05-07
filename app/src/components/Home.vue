@@ -19,7 +19,6 @@
                     <a href="#" class="link">Log Out</a>
                 </div>
             </div>
-            <!--<img class="userIcon" src="./images/userIcon.png" height="52" width="52">-->
         </div>
         <div class="dashboard">
             <div class="lifts-container container">
@@ -39,18 +38,9 @@
                 </div>
                 <div class="new-lift inline container-child">
                     <form>
-                        <div class="lift-field">
-                            <p class="lift-prompt">Weight</p>
-                            <input id="lift-input-weight" class="numeric-input lift-input" type="text" name="weight" placeholder="pounds" autocomplete="off">
-                        </div>
-                        <div class="lift-field">
-                            <p class="lift-prompt">Reps</p>
-                            <input id="lift-input-reps" class="numeric-input lift-input" type="text" name="reps" placeholder="repetitions" autocomplete="off">
-                        </div>
-                        <div class="lift-field">
-                            <p class="lift-prompt">Date</p>
-                            <input id="date-input" class="lift-input" type="text" name="date" placeholder="today" autocomplete="off">
-                        </div>
+                        <lift-field id="lift-input-weight" name="weight" prompt="Weight"></lift-field>
+                        <lift-field id="lift-input-reps" name="reps" prompt="Reps"></lift-field>
+                        <lift-field id="date-input" name="date" prompt="Date"></lift-field>
                         <div class="lift-field">
                             <p class="lift-prompt inline">Type</p>
                             <select id="select-lift-type" class="select select-wide" name='liftType'>
@@ -128,8 +118,12 @@ import '@/assets/css/index.css'
 import $ from 'jquery'
 import { mapGetters } from 'vuex'
 import Chart from 'chart.js'
+import LiftField from '@/components/partials/LiftField'
 
 export default {
+    components: {
+        'lift-field': LiftField,
+    },
     data: function() {
         return {
             name: 'Austin Bailey',
@@ -174,10 +168,9 @@ export default {
                     user: this.getId()
                 }
             ).done(function(data) {
-                var d = new Date();
-                d.setHours(0,0,0,0);
+                var dateString = this.getTonightMidnight();
                 var newBodyweight = {
-                    date: d,
+                    date: dateString,
                     weight: $('#new-bodyweight-input').val()
                 };
                 this.bodyweights.push(newBodyweight);
@@ -197,13 +190,12 @@ export default {
                     user: this.getId()
                 }
             ).done(function(data) {
-                var d = new Date();
-                d.setHours(0,0,0,0);
+                var dateString = this.getTonightMidnight();
                 var newLift = {
                     weight: $('#lift-input-weight').val(),
                     reps: $('#lift-input-reps').val(),
                     type: $('#select-lift-type').val(),
-                    date: d
+                    date: dateString
                 };
                 this.lifts.push(newLift);
                 this.buildLiftChart();
@@ -235,6 +227,7 @@ export default {
                     } else {
                         xAxis.push(this.lifts[i].date);
                         yAxis.push(this.lifts[i].weight * (1 + (this.lifts[i].reps  / 30)));
+                        console.log(this.lifts[i].date);
                     }
 
                 }
@@ -307,6 +300,20 @@ export default {
             	     },
             	}
             });
+        },
+        getTonightMidnight: function() {
+            var d = new Date();
+            d.setHours(0,0,0,0);
+            var month;
+            var date;
+            month = d.getMonth() + 1;
+            if (d.getMonth() < 9) {
+                month = '0' + month;
+            }
+            if (d.getDate() < 10) {
+                date = '0' + d.getDate();
+            }
+            return d.getFullYear() + '-' + month + '-' + date + " 00:00:00";
         },
         ...mapGetters([
             'getKey',
