@@ -33,7 +33,7 @@
                         </select>
                     </div>
                     <div class="lift-chart-container">
-                        <canvas id="lift-chart"></canvas>
+                        <chart id="lift-chart" :axes="getLiftAxes"></chart>
                     </div>
                 </div>
                 <div class="new-lift inline container-child">
@@ -97,7 +97,7 @@
                         <a class="link-small inline" href="">View as Table</a>
                     </div>
                     <div class="bodyweight-chart-container">
-                        <canvas id="bodyweight-chart"></canvas>
+                        <chart id="bodyweight-chart" :axes="getBodyweightAxes"></chart>
                     </div>
                 </div>
                 <div class="new-weight container-child inline">
@@ -119,10 +119,12 @@ import $ from 'jquery'
 import { mapGetters } from 'vuex'
 import Chart from 'chart.js'
 import LiftField from '@/components/partials/LiftField'
+import Graph from '@/components/partials/Chart'
 
 export default {
     components: {
         'lift-field': LiftField,
+        'chart': Graph
     },
     data: function() {
         return {
@@ -130,7 +132,7 @@ export default {
             lifts: [],
             bodyweights: [],
             lifttypes: [],
-            selectedLiftChartType: null
+            selectedLiftChartType: null,
         }
     },
     created: function() {
@@ -145,18 +147,13 @@ export default {
         ).done(function(data) {
             this.lifttypes = data;
             this.selectedLiftChartType = data[0].name;
-            this.buildLiftChart();
         }.bind(this));
 
         $.get(
             'http://localhost:8080/api/bodyweights/' + this.getId(),
         ).done(function(data) {
             this.bodyweights = data;
-            this.buildWeightChart();
         }.bind(this));
-    },
-    mounted: function() {
-        console.log(this.getKey(), this.getId());
     },
     methods: {
         postBodyweight: function() {
@@ -174,7 +171,6 @@ export default {
                     weight: $('#new-bodyweight-input').val()
                 };
                 this.bodyweights.push(newBodyweight);
-                this.buildWeightChart();
             }.bind(this));
         },
         postLift: function(event) {
@@ -198,12 +194,46 @@ export default {
                     date: dateString
                 };
                 this.lifts.push(newLift);
-                this.buildLiftChart();
             }.bind(this));
         },
-        buildLiftChart: function() {
+        getTonightMidnight: function() {
+            var d = new Date();
+            d.setHours(0,0,0,0);
+            var month = d.getMonth() + 1;;
+            var date = d.getDate();;
+            if (d.getMonth() < 9) {
+                month = '0' + month;
+            }
+            if (d.getDate() < 10) {
+                date = '0' + date;
+            }
+            return d.getFullYear() + '-' + month + '-' + date + " 00:00:00";
+        },
+        ...mapGetters([
+            'getKey',
+            'getId'
+        ])
+    },
+    computed: {
+        getBodyweightAxes: function() {
+            var xAxis = [];
+            var yAxis = [];
+            for (var i = 0; i < this.bodyweights.length; i++) {
+                xAxis.push(this.bodyweights[i].date);
+                yAxis.push(this.bodyweights[i].weight);
+            }
+
+            // Convert dates to neater format
+            for (var i = 0; i < xAxis.length; i++) {
+                var element = new Date(xAxis[i]);
+                var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
+                xAxis[i] = newDate;
+            }
+            console.log(xAxis);
+            return { xAxis: xAxis, yAxis, yAxis }
+        },
+        getLiftAxes: function() {
             var type = this.selectedLiftChartType;
-            console.log(type);
             var xAxis = [];
             var yAxis = [];
             for (var i = 0; i < this.lifts.length; i++) {
@@ -227,7 +257,6 @@ export default {
                     } else {
                         xAxis.push(this.lifts[i].date);
                         yAxis.push(this.lifts[i].weight * (1 + (this.lifts[i].reps  / 30)));
-                        console.log(this.lifts[i].date);
                     }
 
                 }
@@ -240,86 +269,9 @@ export default {
                 xAxis[i] = newDate;
             }
 
-            var ctx = document.getElementById('lift-chart').getContext('2d');
-            var chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: xAxis,
-                datasets: [{
-                    borderColor: 'rgb(231,76,60)',
-                    backgroundColor: 'rgba(231,76,60,0.3',
-                    fill: true,
-                    data: yAxis,
-                    pointBackgroundColor: 'rgb(231,76,60)',
-
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                    display: false
-                 },
-            }
-            });
-
-        },
-        buildWeightChart: function() {
-            var xAxis = [];
-            var yAxis = [];
-            for (var i = 0; i < this.bodyweights.length; i++) {
-                xAxis.push(this.bodyweights[i].date);
-                yAxis.push(this.bodyweights[i].weight);
-            }
-
-            // Convert dates to neater format
-            for (var i = 0; i < xAxis.length; i++) {
-                var element = new Date(xAxis[i]);
-                var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
-                xAxis[i] = newDate;
-            }
-
-            var ctx = document.getElementById('bodyweight-chart').getContext('2d');
-            var chart = new Chart(ctx, {
-            	type: 'line',
-            	data: {
-            	    labels: xAxis,
-            	    datasets: [{
-            	        borderColor: 'rgb(231,76,60)',
-            	        backgroundColor: 'rgba(231,76,60,0.3',
-            	        fill: true,
-            	        pointBackgroundColor: 'rgb(231,76,60)',
-            	        data: yAxis,
-            	    }]
-            	},
-            	options: {
-            	    responsive: true,
-            	    maintainAspectRatio: false,
-            	    legend: {
-            	        display: false
-            	     },
-            	}
-            });
-        },
-        getTonightMidnight: function() {
-            var d = new Date();
-            d.setHours(0,0,0,0);
-            var month;
-            var date;
-            month = d.getMonth() + 1;
-            if (d.getMonth() < 9) {
-                month = '0' + month;
-            }
-            if (d.getDate() < 10) {
-                date = '0' + d.getDate();
-            }
-            return d.getFullYear() + '-' + month + '-' + date + " 00:00:00";
-        },
-        ...mapGetters([
-            'getKey',
-            'getId'
-        ])
-    }
+            return { xAxis: xAxis, yAxis: yAxis };
+        }
+    },
 }
 </script>
 
