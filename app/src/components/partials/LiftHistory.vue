@@ -1,8 +1,8 @@
 <template lang="html">
     <div class="">
         <div>
-            <h2 class="header-small inline">Your Lift Progress</h2>
-            <a class="link-small inline" @click="showGraph=!showGraph">View as {{ viewAs }}</a>
+            <h2 class="header-small inline no-select">Your Lift Progress</h2>
+            <a class="link-small inline no-select" @click="showGraph=!showGraph">View as {{ viewAs }}</a>
         </div>
         <div v-show="showGraph">
             <div class="select-container">
@@ -14,8 +14,21 @@
                 <chart id="lift-chart" :axes="getLiftAxes"></chart>
             </div>
         </div>
-        <div v-show="!showGraph">
-            <p v-for="lift in lifts">{{ lift }}</p>
+        <div v-show="!showGraph" class="overflow-y">
+            <div class="underline">
+                <p class="table-item inline">Weight</p>
+                <p class="table-item inline">Reps</p>
+                <p class="table-item inline">Type</p>
+                <p class="table-item inline">Date</p>
+            </div>
+            <div class="overflow-y">
+                <div v-for="lift in lifts" class="table-row">
+                    <p class="table-item inline">{{ lift.weight }}</p>
+                    <p class="table-item inline">{{ lift.reps }}</p>
+                    <p class="table-item inline">{{ lift.type }}</p>
+                    <p class="table-item inline">{{ lift.date }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </template>

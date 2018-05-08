@@ -81,13 +81,7 @@
             </div>
             <div class="container">
                 <div class="bodyweight-graph container-child inline">
-                    <div>
-                        <p class="header-small inline">Bodyweight</p>
-                        <a class="link-small inline" href="">View as Table</a>
-                    </div>
-                    <div class="bodyweight-chart-container">
-                        <chart id="bodyweight-chart" :axes="getBodyweightAxes"></chart>
-                    </div>
+                    <bodyweight-history :bodyweights="bodyweights"></bodyweight-history>
                 </div>
                 <div class="new-weight container-child inline">
                     <form class="bodyweight-form" method="post">
@@ -106,16 +100,15 @@
 import '@/assets/css/index.css'
 import $ from 'jquery'
 import { mapGetters } from 'vuex'
-import Chart from 'chart.js'
 import LiftField from '@/components/partials/LiftField'
-import Graph from '@/components/partials/Chart'
 import LiftHistory from '@/components/partials/LiftHistory'
+import BodyweightHistory from '@/components/partials/BodyweightHistory'
 
 export default {
     components: {
         'lift-field': LiftField,
-        'chart': Graph,
         'lift-history': LiftHistory,
+        'bodyweight-history': BodyweightHistory
     },
     data: function() {
         return {
@@ -123,8 +116,6 @@ export default {
             lifts: [],
             bodyweights: [],
             lifttypes: [],
-            selectedLiftChartType: null,
-            showGraph: true,
         }
     },
     created: function() {
@@ -201,25 +192,7 @@ export default {
             'getKey',
             'getId'
         ])
-    },
-    computed: {
-        getBodyweightAxes: function() {
-            var xAxis = [];
-            var yAxis = [];
-            for (var i = 0; i < this.bodyweights.length; i++) {
-                xAxis.push(this.bodyweights[i].date);
-                yAxis.push(this.bodyweights[i].weight);
-            }
-
-            // Convert dates to neater format
-            for (var i = 0; i < xAxis.length; i++) {
-                var element = new Date(xAxis[i]);
-                var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
-                xAxis[i] = newDate;
-            }
-            return { xAxis: xAxis, yAxis, yAxis }
-        },
-    },
+    }
 }
 </script>
 

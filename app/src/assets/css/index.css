@@ -91,6 +91,37 @@ p {
 	cursor: pointer;
 }
 
+.form-submit:hover {
+	background-color: #EEEEF2;
+}
+
+.no-select {
+	-webkit-user-select: none; /* Safari */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none;
+}
+
+.overflow-y {
+	overflow-y: scroll;
+	height: 260px;
+}
+
+.table-item {
+	padding: 3px 0px;;
+	width: 20%;
+	font-weight: 200;
+}
+
+.underline {
+	border-bottom: 1px solid #DCDCDC;
+}
+
+.table-row:hover {
+	background-color: #EEEEF2;
+	cursor: pointer;
+}
+
 /* navigation */
 
 .top {
