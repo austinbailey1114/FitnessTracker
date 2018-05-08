@@ -23,18 +23,7 @@
         <div class="dashboard">
             <div class="lifts-container container">
                 <div class="lift-graph inline container-child">
-                    <div>
-                        <h2 class="header-small inline">Your Lift Progress</h2>
-                        <a class="link-small inline" href="">View as Table</a>
-                    </div>
-                    <div class="select-container">
-                        <select @change="buildLiftChart()" v-model="selectedLiftChartType" class="select" id="choose-lift">
-                            <option v-for="type in lifttypes" :val="type.name">{{ type.name }}</option>
-                        </select>
-                    </div>
-                    <div class="lift-chart-container">
-                        <chart id="lift-chart" :axes="getLiftAxes"></chart>
-                    </div>
+                    <lift-history :lifts="lifts" :lifttypes="lifttypes"></lift-history>
                 </div>
                 <div class="new-lift inline container-child">
                     <form>
@@ -120,11 +109,13 @@ import { mapGetters } from 'vuex'
 import Chart from 'chart.js'
 import LiftField from '@/components/partials/LiftField'
 import Graph from '@/components/partials/Chart'
+import LiftHistory from '@/components/partials/LiftHistory'
 
 export default {
     components: {
         'lift-field': LiftField,
-        'chart': Graph
+        'chart': Graph,
+        'lift-history': LiftHistory,
     },
     data: function() {
         return {
@@ -133,6 +124,7 @@ export default {
             bodyweights: [],
             lifttypes: [],
             selectedLiftChartType: null,
+            showGraph: true,
         }
     },
     created: function() {
@@ -201,12 +193,8 @@ export default {
             d.setHours(0,0,0,0);
             var month = d.getMonth() + 1;;
             var date = d.getDate();;
-            if (d.getMonth() < 9) {
-                month = '0' + month;
-            }
-            if (d.getDate() < 10) {
-                date = '0' + date;
-            }
+            if (d.getMonth() < 9) month = '0' + month;
+            if (d.getDate() < 10) date = '0' + date;
             return d.getFullYear() + '-' + month + '-' + date + " 00:00:00";
         },
         ...mapGetters([
@@ -229,48 +217,8 @@ export default {
                 var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
                 xAxis[i] = newDate;
             }
-            console.log(xAxis);
             return { xAxis: xAxis, yAxis, yAxis }
         },
-        getLiftAxes: function() {
-            var type = this.selectedLiftChartType;
-            var xAxis = [];
-            var yAxis = [];
-            for (var i = 0; i < this.lifts.length; i++) {
-                // If the lift is of the selected type
-                if(this.lifts[i].type == type) {
-                    if (xAxis.length > 0) {
-                        // Find the index of the date of the current item
-                        var index = xAxis.findIndex(function(element) {
-                            return element == this.lifts[i].date;
-                        }.bind(this));
-                        // If the date already exists, check if the corresponding lift (in the y axis) needs to be updated
-                        if (index != -1) {
-                            // Only change the lift if the 1RM of the current index is larger
-                            if (yAxis[index] < (this.lifts[i].weight * (1 + (this.lifts[i].reps  / 30)))) {
-                                yAxis[index] = this.lifts[i].weight * (1 + (this.lifts[i].reps  / 30));
-                            }
-                        } else {
-                            xAxis.push(this.lifts[i].date);
-                            yAxis.push(this.lifts[i].weight * (1 + (this.lifts[i].reps  / 30)));
-                        }
-                    } else {
-                        xAxis.push(this.lifts[i].date);
-                        yAxis.push(this.lifts[i].weight * (1 + (this.lifts[i].reps  / 30)));
-                    }
-
-                }
-            }
-
-            // Convert dates to neater format
-            for (var i = 0; i < xAxis.length; i++) {
-                var element = new Date(xAxis[i]);
-                var newDate = (element.getMonth() + 1) + "/" + element.getDate() + "/" + element.getFullYear();
-                xAxis[i] = newDate;
-            }
-
-            return { xAxis: xAxis, yAxis: yAxis };
-        }
     },
 }
 </script>

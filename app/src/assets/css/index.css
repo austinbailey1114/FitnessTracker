@@ -43,6 +43,7 @@ p {
 	font-size: 16px;
 	float: right;
 	padding: 10px 0;
+	cursor: pointer;
 }
 
 .header-small {
