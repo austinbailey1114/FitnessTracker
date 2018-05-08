@@ -22,37 +22,7 @@
         </div>
         <div class="dashboard">
             <lift-component></lift-component>
-            <div class="container">
-                <div class="food-total container-child inline">
-                    <div class="food-total-field">
-                        <p class="food-total-prompt">Calories</p>
-                        <p class="food-total-value"></p>
-                    </div>
-                    <div class="food-total-field">
-                        <p class="food-total-prompt">Fat</p>
-                        <p class="food-total-value"></p>
-                    </div>
-                    <div class="food-total-field">
-                        <p class="food-total-prompt">Carbs</p>
-                        <p class="food-total-value"></p>
-                    </div>
-                    <div class="food-total-field">
-                        <p class="food-total-prompt">Protein</p>
-                        <p class="food-total-value"></p>
-                    </div>
-                </div>
-                <div class="container-child inline food-stuff">
-                    <div class="new-food">
-                        <form class="food-form" action="#" method="post">
-                            <input type="text" name="searchField" class="food-search" placeholder="Search food database">
-                            <button class="form-submit food-search-button">Search</button>
-                        </form>
-                    </div>
-                    <div class="food-history">
-                        <p class="food-history-item"></p>
-                    </div>
-                </div>
-            </div>
+            <food-component></food-component>
             <div class="container">
                 <div class="bodyweight-graph container-child inline">
                     <bodyweight-history :bodyweights="bodyweights"></bodyweight-history>
@@ -76,11 +46,13 @@ import $ from 'jquery'
 import { mapGetters } from 'vuex'
 import BodyweightHistory from '@/components/partials/BodyweightHistory'
 import LiftComponent from '@/components/partials/LiftComponent'
+import FoodComponent from '@/components/partials/FoodComponent'
 
 export default {
     components: {
         'bodyweight-history': BodyweightHistory,
-        'lift-component': LiftComponent
+        'lift-component': LiftComponent,
+        'food-component': FoodComponent
     },
     data: function() {
         return {
