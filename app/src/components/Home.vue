@@ -21,33 +21,7 @@
             </div>
         </div>
         <div class="dashboard">
-            <div class="lifts-container container">
-                <div class="lift-graph inline container-child">
-                    <lift-history :lifts="lifts" :lifttypes="lifttypes"></lift-history>
-                </div>
-                <div class="new-lift inline container-child">
-                    <form>
-                        <lift-field id="lift-input-weight" name="weight" prompt="Weight"></lift-field>
-                        <lift-field id="lift-input-reps" name="reps" prompt="Reps"></lift-field>
-                        <lift-field id="date-input" name="date" prompt="Date"></lift-field>
-                        <div class="lift-field">
-                            <p class="lift-prompt inline">Type</p>
-                            <select id="select-lift-type" class="select select-wide" name='liftType'>
-                                <option value="select">-- Select Type--</option>
-                                <option value="new">New</option>
-                                <option v-for="type in lifttypes" :val="type.name">{{ type.name }}</option>
-                            </select>
-                            <div id="newType" style="display: none">
-                                <button id='exitNewLift' type=button>
-                                    <img src="@/assets/images/xicon.png" height='15' width='15' style='margin-right: 5px;'>
-                                </button>
-                                <input id="lift-input-type" class="lift-input" type='text' name='newType' placeholder='new type' autocomplete='off'>
-                            </div>
-                        </div>
-                        <button @click.prevent="postLift()" class="form-submit">Save Lift</button>
-                    </form>
-                </div>
-            </div>
+            <lift-component></lift-component>
             <div class="container">
                 <div class="food-total container-child inline">
                     <div class="food-total-field">
@@ -100,38 +74,21 @@
 import '@/assets/css/index.css'
 import $ from 'jquery'
 import { mapGetters } from 'vuex'
-import LiftField from '@/components/partials/LiftField'
-import LiftHistory from '@/components/partials/LiftHistory'
 import BodyweightHistory from '@/components/partials/BodyweightHistory'
+import LiftComponent from '@/components/partials/LiftComponent'
 
 export default {
     components: {
-        'lift-field': LiftField,
-        'lift-history': LiftHistory,
-        'bodyweight-history': BodyweightHistory
+        'bodyweight-history': BodyweightHistory,
+        'lift-component': LiftComponent
     },
     data: function() {
         return {
             name: 'Austin Bailey',
-            lifts: [],
             bodyweights: [],
-            lifttypes: [],
         }
     },
     created: function() {
-        $.get(
-            'http://localhost:8080/api/lifts/' + this.getId(),
-        ).done(function(data) {
-            this.lifts = data;
-        }.bind(this));
-
-        $.get(
-            'http://localhost:8080/api/lifttypes/' + this.getId(),
-        ).done(function(data) {
-            this.lifttypes = data;
-            this.selectedLiftChartType = data[0].name;
-        }.bind(this));
-
         $.get(
             'http://localhost:8080/api/bodyweights/' + this.getId(),
         ).done(function(data) {
@@ -154,29 +111,6 @@ export default {
                     weight: $('#new-bodyweight-input').val()
                 };
                 this.bodyweights.push(newBodyweight);
-            }.bind(this));
-        },
-        postLift: function(event) {
-            $.post(
-                'http://localhost:8080/api/lifts/',
-                {
-                    weight: $('#lift-input-weight').val(),
-                    reps: $('#lift-input-reps').val(),
-                    date: $('#date-input').val(),
-                    type: $('#select-lift-type').val(),
-                    liftType: $('#select-lift-type').val(),
-                    key: this.getKey(),
-                    user: this.getId()
-                }
-            ).done(function(data) {
-                var dateString = this.getTonightMidnight();
-                var newLift = {
-                    weight: $('#lift-input-weight').val(),
-                    reps: $('#lift-input-reps').val(),
-                    type: $('#select-lift-type').val(),
-                    date: dateString
-                };
-                this.lifts.push(newLift);
             }.bind(this));
         },
         getTonightMidnight: function() {
