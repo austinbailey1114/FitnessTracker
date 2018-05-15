@@ -107,6 +107,15 @@ class APIController extends Controller {
         }
     }
 
+    public function deleteBodyweight($request, $response) {
+        try {
+            Bodyweight::where('id', $request->getParam('id'))->delete();
+            return $response->withStatus(200);
+        } catch(QueryException $e) {
+            return $response->withStatus(400);
+        }
+    }
+
     public function getLifttypes($request, $response, $args) {
         $lifttypes = LiftType::where('user', $args['id'])->get();
 

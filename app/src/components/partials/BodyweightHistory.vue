@@ -16,6 +16,7 @@
                 <div v-for="bodyweight in bodyweights" class="table-row">
                     <p class="table-item inline">{{ bodyweight.weight }}</p>
                     <p class="table-item inline">{{ bodyweight.date }}</p>
+                    <button @click="deleteBodyweight(bodyweight)" class="delete-button inline">X</button>
                 </div>
             </div>
         </div>
@@ -24,6 +25,9 @@
 
 <script>
 import Graph from '@/components/partials/Chart.vue'
+import { mapGetters } from 'vuex'
+import $ from 'jquery'
+
 export default {
     props: ['bodyweights'],
     components: {
@@ -35,9 +39,24 @@ export default {
         }
     },
     methods: {
-        deleteBodyweight: function(id) {
-            console.log(id);
+        deleteBodyweight: function(bodyweight) {
+            $.ajax({
+                url: 'http://localhost:8080/api/bodyweights/',
+                data: {
+                    id: bodyweight.id,
+                    key: this.getKey(),
+                    user: this.getId()
+                },
+                type: 'DELETE'
+            }).done(function(data) {
+                var index = this.bodyweights.indexOf(bodyweight);
+                this.bodyweights.splice(index, 1);
+            }.bind(this));
         },
+        ...mapGetters([
+            'getKey',
+            'getId'
+        ])
     },
     computed: {
         getBodyweightAxes: function() {

@@ -67,7 +67,7 @@ $app->group('/api', function() {
 	});
 	$this->group('/bodyweights', function() {
 		$this->post('/', 'APIController:postBodyweight');
-		$this->delete('/', 'BodyweightController:deleteBodyweight');
+		$this->delete('/', 'APIController:deleteBodyweight');
 	});
 	$this->group('/lifttypes', function() {
 		$this->post('/', 'LifttypesController:postLiftType');
