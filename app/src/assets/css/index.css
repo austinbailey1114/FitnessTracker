@@ -122,6 +122,20 @@ p {
 	cursor: pointer;
 }
 
+.table-row:hover > .delete-button {
+	display: inline-block;
+}
+
+.delete-button {
+	display: none;
+	padding: 3px 5px;
+	cursor: pointer;
+	border: none;
+	color: red;
+	border: 1px solid #DCDCDC;
+	border-radius: 5px;
+}
+
 /* navigation */
 
 .top {

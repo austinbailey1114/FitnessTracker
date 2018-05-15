@@ -31,14 +31,12 @@
 import '@/assets/css/index.css'
 import $ from 'jquery'
 import { mapGetters } from 'vuex'
-import BodyweightHistory from '@/components/partials/BodyweightHistory'
 import LiftComponent from '@/components/partials/LiftComponent'
 import FoodComponent from '@/components/partials/FoodComponent'
 import BodyweightComponent from '@/components/partials/BodyweightComponent'
 
 export default {
     components: {
-        'bodyweight-history': BodyweightHistory,
         'lift-component': LiftComponent,
         'food-component': FoodComponent,
         'bodyweight-component': BodyweightComponent
@@ -46,7 +44,6 @@ export default {
     data: function() {
         return {
             name: 'Austin Bailey',
-            bodyweights: [],
         }
     }
 }
