@@ -265,7 +265,10 @@ p {
 
 .food-total-value {
 	font-weight: 200;
-	padding: 0 50px;
+	padding: 7px 20px;
+	font-size: 14px;
+	float: left;
+	color: white;
 }
 
 .food-form {

@@ -3,11 +3,12 @@
         <div class="food-total container-child inline">
             <div class="food-total-field">
                 <p class="food-total-prompt">Calories</p>
-                <div id="cals" class="food-total-bar">
+                <div id="cals" class="food-total-bar inline">
                     <div class="food-total-progess inline" :style="calsWidth">
                         <p class="food-total-value">{{ totals.cals }}</p>
                     </div>
                 </div>
+                <p class="food-total-goal inline">{{ goals.cals }}</p>
             </div>
             <div class="food-total-field">
                 <p class="food-total-prompt">Fat</p>
@@ -16,24 +17,25 @@
                         <p class="food-total-value">{{ totals.fat }}</p>
                     </div>
                 </div>
+                <p class="food-total-goal inline">{{ goals.fat }}</p>
             </div>
             <div class="food-total-field">
                 <p class="food-total-prompt">Carbs</p>
-                <div class="food-total-bar">
-                    <div class="food-total-progess inline">
-
+                <div id="carbs" class="food-total-bar">
+                    <div class="food-total-progess inline" :style="carbsWidth">
+                        <p class="food-total-value">{{ totals.carbs }}</p>
                     </div>
-                    <p class="food-total-value inline">{{ totals.carbs }}</p>
                 </div>
+                <p class="food-total-goal inline">{{ goals.carbs }}</p>
             </div>
             <div class="food-total-field">
                 <p class="food-total-prompt">Protein</p>
-                <div class="food-total-bar">
-                    <div class="food-total-progess inline">
-
+                <div id="protein" class="food-total-bar">
+                    <div class="food-total-progess inline" :style="proteinWidth">
+                        <p class="food-total-value">{{ totals.protein }}</p>
                     </div>
-                    <p class="food-total-value inline">{{ totals.protein }}</p>
                 </div>
+                <p class="food-total-goal inline">{{ goals.protein }}</p>
             </div>
         </div>
         <div class="container-child inline food-stuff">
@@ -59,15 +61,22 @@ export default {
             foods: [],
             totals: {
                 'cals': 200,
-                'fat': 40,
-                'carbs': 89,
-                'protein': 41
+                'fat': 41,
+                'carbs': 71,
+                'protein': 12
             },
             goals: {
                 'cals': 1000,
                 'fat': 70,
                 'carbs': 80,
                 'protein': 45,
+            },
+            barStyle: {
+                height: '30px',
+                zIndex: '3',
+                position: 'absolute',
+                backgroundColor: '#E74C3C',
+                borderRadius: '10px',
             }
         }
     },
@@ -79,20 +88,28 @@ export default {
             var baseWidth = $('#cals').width();
             return {
                 width: (this.totals.cals / this.goals.cals) * baseWidth + 'px',
-                height: '30px',
-                zIndex: '3',
-                position: 'absolute',
-                backgroundColor: 'red'
+                ...this.barStyle
             }
         },
         fatWidth: function() {
             var baseWidth = $('#fat').width();
             return {
                 width: (this.totals.fat / this.goals.fat) * baseWidth + 'px',
-                height: '30px',
-                zIndex: '3',
-                position: 'absolute',
-                backgroundColor: 'red'
+                ...this.barStyle
+            }
+        },
+        carbsWidth: function() {
+            var baseWidth = $('#carbs').width();
+            return {
+                width: (this.totals.carbs / this.goals.carbs) * baseWidth + 'px',
+                ...this.barStyle
+            }
+        },
+        proteinWidth: function() {
+            var baseWidth = $('#protein').width();
+            return {
+                width: (this.totals.protein / this.goals.protein) * baseWidth + 'px',
+                ...this.barStyle
             }
         }
     }
@@ -103,8 +120,9 @@ export default {
 .food-total-bar {
     height: 30px;
     width: 80%;
-    background-color: pink;
-    overflow: visible;
+    background-color: #EEEEF2;
+    border-radius: 10px;
+    float: left;
 }
 
 .food-total-progress {
@@ -113,5 +131,11 @@ export default {
     float: left;
     position: absolute;
     z-index: 3;
+}
+
+.food-total-goal {
+    font-weight: 200;
+	padding: 7px 20px;
+	font-size: 14px;
 }
 </style>
