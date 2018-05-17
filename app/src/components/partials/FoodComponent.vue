@@ -46,7 +46,12 @@
                 </form>
             </div>
             <div class="food-history">
-                <p class="food-history-item"></p>
+                <p v-if="foods.length < 1" class="food-history-none">No recent foods to show</p>
+                <span v-else>
+                    <p v-for="food in foods" class="food-history-item">
+                        {{ food }}
+                    </p>
+                </span>
             </div>
         </div>
     </div>
@@ -137,5 +142,12 @@ export default {
     font-weight: 200;
 	padding: 7px 20px;
 	font-size: 14px;
+}
+
+.food-history-none {
+    font-weight: 200;
+    font-size: 22px;
+    padding: 10px;
+    text-align: center;
 }
 </style>
