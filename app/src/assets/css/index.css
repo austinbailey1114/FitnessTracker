@@ -119,7 +119,6 @@ p {
 
 .table-row:hover {
 	background-color: #EEEEF2;
-	cursor: pointer;
 }
 
 .table-row:hover > .delete-button {
