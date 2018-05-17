@@ -273,17 +273,19 @@ p {
 
 .food-form {
 	border-bottom: 1px solid #EEEEF2;
+	text-align: center;
 }
 
 .food-search {
 	padding: 10px 10px;
-	margin: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 	border: 1px solid #DCDCDC;
 	border-radius: 5px;
 	font-size: 16px;
 	text-align: left;
 	font-weight: 200;
-	width: 60%;
+	width: 90%;
 }
 
 .food-search-button {

@@ -42,7 +42,6 @@
             <div class="new-food">
                 <form class="food-form" action="#" method="post">
                     <input type="text" name="searchField" class="food-search" placeholder="Search food database">
-                    <button class="form-submit food-search-button">Search</button>
                 </form>
             </div>
             <div class="food-history">
