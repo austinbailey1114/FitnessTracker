@@ -2,13 +2,15 @@
     <div class="container">
         <div class="food-total container-child inline">
             <div class="food-total-field">
+                <a class="link-small inline no-select" @click="isEditing = !isEditing">{{ display }}</a>
                 <p class="food-total-prompt">Calories</p>
                 <div id="cals" class="food-total-bar inline">
                     <div class="food-total-progess inline" :style="calsWidth">
                         <p class="food-total-value">{{ totals.cals }}</p>
                     </div>
                 </div>
-                <p class="food-total-goal inline">{{ goals.cals }}</p>
+                <p v-if="!isEditing" class="food-total-goal inline">{{ goals.cals }}</p>
+                <input v-else class="inline" :value="goals.cals">
             </div>
             <div class="food-total-field">
                 <p class="food-total-prompt">Fat</p>
@@ -17,7 +19,8 @@
                         <p class="food-total-value">{{ totals.fat }}</p>
                     </div>
                 </div>
-                <p class="food-total-goal inline">{{ goals.fat }}</p>
+                <p v-if="!isEditing" class="food-total-goal inline">{{ goals.fat }}</p>
+                <input v-else class="inline" :value="goals.fat">
             </div>
             <div class="food-total-field">
                 <p class="food-total-prompt">Carbs</p>
@@ -26,7 +29,8 @@
                         <p class="food-total-value">{{ totals.carbs }}</p>
                     </div>
                 </div>
-                <p class="food-total-goal inline">{{ goals.carbs }}</p>
+                <p v-if="!isEditing" class="food-total-goal inline">{{ goals.carbs }}</p>
+                <input v-else class="inline" :value="goals.carbs">
             </div>
             <div class="food-total-field">
                 <p class="food-total-prompt">Protein</p>
@@ -35,7 +39,8 @@
                         <p class="food-total-value">{{ totals.protein }}</p>
                     </div>
                 </div>
-                <p class="food-total-goal inline">{{ goals.protein }}</p>
+                <p v-if="!isEditing" class="food-total-goal inline">{{ goals.protein }}</p>
+                <input v-else class="inline" :value="goals.protein">
             </div>
         </div>
         <div class="container-child inline food-stuff">
@@ -81,11 +86,17 @@ export default {
                 position: 'absolute',
                 backgroundColor: '#E74C3C',
                 borderRadius: '10px',
-            }
+            },
+            isEditing: false,
         }
     },
     mounted: function() {
 
+    },
+    methods: {
+        editGoals: function() {
+
+        }
     },
     computed: {
         calsWidth: function() {
@@ -115,7 +126,11 @@ export default {
                 width: (this.totals.protein / this.goals.protein) * baseWidth + 'px',
                 ...this.barStyle
             }
-        }
+        },
+        display: function() {
+            if (!this.isEditing) return "Edit";
+            return "Save";
+        },
     }
 }
 </script>
