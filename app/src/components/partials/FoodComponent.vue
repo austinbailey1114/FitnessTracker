@@ -92,14 +92,13 @@ export default {
         }
     },
     mounted: function() {
-        $.get(
-            'http://localhost:8080/api/foods/goals/' + this.getId(),
-        ).done(function(data) {
+        this.$http.get('http://localhost:8080/api/foods/goals/' + this.getId()).then(response => {
+            var data = JSON.parse(response.bodyText);
             this.goals.cals = data.calories;
             this.goals.fat = data.fat;
             this.goals.carbs = data.carbohydrate;
             this.goals.protein = data.protein;
-        }.bind(this));
+        });
     },
     methods: {
         editClicked: function() {
@@ -110,12 +109,12 @@ export default {
                     ...this.goals
                 };
 
-                $.post(
+                this.$http.post(
                     'http://localhost:8080/api/foods/goals/',
                     data
-                ).done(function(data) {
-                    console.log(data);
-                }.bind(this));
+                ).then(response => {
+                    console.log(response);
+                });
 
             }
             this.isEditing = !this.isEditing;
