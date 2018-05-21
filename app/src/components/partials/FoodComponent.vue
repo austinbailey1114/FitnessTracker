@@ -70,7 +70,7 @@ export default {
         return {
             foods: [],
             totals: {
-                'cals': 400,
+                'cals': 200,
                 'fat': 41,
                 'carbs': 30,
                 'protein': 12
@@ -85,8 +85,8 @@ export default {
                 height: '30px',
                 zIndex: '3',
                 position: 'absolute',
-                backgroundColor: '#E74C3C',
                 borderRadius: '10px',
+                minWidth: 'max-content',
             },
             isEditing: false,
         }
@@ -111,7 +111,7 @@ export default {
                 };
 
                 $.post(
-                    'http://localhost:8080/api/foods/goals',
+                    'http://localhost:8080/api/foods/goals/',
                     data
                 ).done(function(data) {
                     console.log(data);
@@ -128,29 +128,66 @@ export default {
     computed: {
         calsWidth: function() {
             var baseWidth = $('#cals').width();
+            var barWidth = (this.totals.cals / this.goals.cals) * baseWidth;
+            if (barWidth > baseWidth) {
+                return {
+                    width: baseWidth + 'px',
+                    backgroundColor: '#6F9F52',
+                    ...this.barStyle
+                };
+            }
             return {
                 width: (this.totals.cals / this.goals.cals) * baseWidth + 'px',
+                minWidth: 'max-content',
+                backgroundColor: '#E74C3C',
                 ...this.barStyle
-            }
+            };
         },
         fatWidth: function() {
             var baseWidth = $('#fat').width();
+            var barWidth = (this.totals.fat / this.goals.fat) * baseWidth;
+            if (barWidth > baseWidth) {
+                return {
+                    width: baseWidth + 'px',
+                    backgroundColor: '#6F9F52',
+                    ...this.barStyle
+                };
+            }
             return {
-                width: (this.totals.fat / this.goals.fat) * baseWidth + 'px',
+                width: barWidth + 'px',
+                backgroundColor: '#E74C3C',
                 ...this.barStyle
             }
         },
         carbsWidth: function() {
             var baseWidth = $('#carbs').width();
+            var barWidth = (this.totals.carbs / this.goals.carbs) * baseWidth;
+            if (barWidth > baseWidth) {
+                return {
+                    width: baseWidth + 'px',
+                    backgroundColor: '#6F9F52',
+                    ...this.barStyle
+                };
+            }
             return {
-                width: (this.totals.carbs / this.goals.carbs) * baseWidth + 'px',
+                width: barWidth + 'px',
+                backgroundColor: '#E74C3C',
                 ...this.barStyle
             }
         },
         proteinWidth: function() {
             var baseWidth = $('#protein').width();
+            var barWidth = (this.totals.protein / this.goals.protein) * baseWidth;
+            if (barWidth > baseWidth) {
+                return {
+                    width: baseWidth + 'px',
+                    backgroundColor: '#6F9F52',
+                    ...this.barStyle
+                };
+            }
             return {
-                width: (this.totals.protein / this.goals.protein) * baseWidth + 'px',
+                width: barWidth + 'px',
+                backgroundColor: '#E74C3C',
                 ...this.barStyle
             }
         },
