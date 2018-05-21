@@ -58,6 +58,10 @@ $app->group('/api', function() {
 	$this->group('/users', function() {
 		$this->post('/', 'UserController:postUser');
 	});
+
+	$this->group('/foods', function() {
+		$this->get('/goals/{id}', 'APIController:getFoodGoals');
+	});
 });
 
 $app->group('/api', function() {

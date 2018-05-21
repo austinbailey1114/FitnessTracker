@@ -1,11 +1,12 @@
 <?php
 
 namespace Carbon\Controllers;
-use Carbon\Models\Lift;
-use Carbon\Models\Bodyweight;
 use Illuminate\Database\QueryException;
 use Carbon\Models\User;
 use Carbon\Models\LiftType;
+use Carbon\Models\FoodGoal;
+use Carbon\Models\Lift;
+use Carbon\Models\Bodyweight;
 
 class APIController extends Controller {
     public function postAuth($request, $response) {
@@ -120,6 +121,22 @@ class APIController extends Controller {
         $lifttypes = LiftType::where('user', $args['id'])->get();
 
         return $response->withJson($lifttypes);
+    }
+
+    public function getFoodGoals($request, $response, $args) {
+        $goals = FoodGoal::where('user', $args['id'])->first();
+
+        if (!$goals) {
+            $goals = FoodGoal::create([
+                'user' => $args['id'],
+                'calories' => 2000,
+                'fat' => 50,
+                'carbohydrate' => 40,
+                'protein' => 30,
+            ]);
+        }
+
+        return $response->withJson($goals);
     }
 }
 
