@@ -14,7 +14,7 @@
                 <chart id="lift-chart" :axes="getLiftAxes"></chart>
             </div>
         </div>
-        <div v-show="!showGraph" class="overflow-y">
+        <div v-show="!showGraph">
             <div class="underline">
                 <p class="table-item inline">Weight</p>
                 <p class="table-item inline">Reps</p>

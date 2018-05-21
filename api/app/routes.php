@@ -79,5 +79,6 @@ $app->group('/api', function() {
 	$this->group('/foods', function() {
 		$this->get('/search/{query}', 'FoodController:searchFoods');
 		//todo when nutrition api is up
+		$this->post('/goals', 'APIController:postFoodGoals');
 	});
 })->add(new APIMiddleware($container));

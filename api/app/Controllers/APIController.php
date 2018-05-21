@@ -138,6 +138,15 @@ class APIController extends Controller {
 
         return $response->withJson($goals);
     }
+
+    public function postFoodGoals($request, $response) {
+        FoodGoal::where('user', $request->getParam('id'))->update([
+            'calories' => $request->getParam('cals'),
+            'fat' => $request->getParam('fat'),
+            'carbohydrate' => $request->getParam('carbs'),
+            'protein' => $request->getParam('protein'),
+        ]);
+    }
 }
 
 ?>

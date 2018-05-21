@@ -63,22 +63,23 @@
 
 <script>
 import $ from 'jquery'
+import { mapGetters } from 'vuex'
 
 export default {
     data: function() {
         return {
             foods: [],
             totals: {
-                'cals': 200,
+                'cals': 400,
                 'fat': 41,
-                'carbs': 71,
+                'carbs': 30,
                 'protein': 12
             },
             goals: {
-                'cals': 1000,
-                'fat': 70,
-                'carbs': 80,
-                'protein': 45,
+                'cals': null,
+                'fat': null,
+                'carbs': null,
+                'protein': null,
             },
             barStyle: {
                 height: '30px',
@@ -91,17 +92,38 @@ export default {
         }
     },
     mounted: function() {
-
+        $.get(
+            'http://localhost:8080/api/foods/goals/' + this.getId(),
+        ).done(function(data) {
+            this.goals.cals = data.calories;
+            this.goals.fat = data.fat;
+            this.goals.carbs = data.carbohydrate;
+            this.goals.protein = data.protein;
+        }.bind(this));
     },
     methods: {
         editClicked: function() {
             if (this.isEditing) {
-                // Send POST with new data
-                console.log(this.goals);
+                var data = {
+                    id: this.getId(),
+                    key: this.getKey(),
+                    ...this.goals
+                };
+
+                $.post(
+                    'http://localhost:8080/api/foods/goals',
+                    data
+                ).done(function(data) {
+                    console.log(data);
+                }.bind(this));
 
             }
             this.isEditing = !this.isEditing;
-        }
+        },
+        ...mapGetters([
+            'getKey',
+            'getId',
+        ])
     },
     computed: {
         calsWidth: function() {
