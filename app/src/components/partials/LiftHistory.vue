@@ -52,18 +52,19 @@ export default {
     },
     methods: {
         deleteLift: function(lift) {
-            $.ajax({
-                url: 'http://localhost:8080/api/lifts/',
-                data: {
-                    id: lift.id,
-                    key: this.getKey(),
-                    user: this.getId()
-                },
-                type: 'DELETE'
-            }).done(function(data) {
-                var index = this.lifts.indexOf(lift);
-                this.lifts.splice(index, 1);
-            }.bind(this));
+            this.$http.delete(
+                'http://localhost:8080/api/lifts/',
+                {
+                    body: {
+                        id: lift.id,
+                        key: this.getKey(),
+                        user: this.getId()
+                    }
+                }).then(response => {
+                    var index = this.lifts.indexOf(lift);
+                    this.lifts.splice(index, 1);
+                }
+            );
         },
         ...mapGetters([
             'getKey',

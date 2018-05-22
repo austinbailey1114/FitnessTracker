@@ -2,8 +2,8 @@
     <div>
         <h1>Login to Fitness Tracker</h1>
 		<form id="form" method="post">
-			<input type="text" name="username" placeholder="Username">
-			<input type="password" name="password" placeholder="Password">
+			<input id="username" type="text" name="username" placeholder="Username">
+			<input id="password" type="password" name="password" placeholder="Password">
 			<button @click.prevent="login()">Login</button>
 		</form>
 	</div>
@@ -17,11 +17,15 @@ import { mapGetters } from 'vuex'
 export default {
     methods: {
         login: function(event) {
-            console.log('login run');
-            $.post(
+            this.$http.post(
                 'http://localhost:8080/api/auth/signin',
-                $('#form').serialize()
-            ).done(function(data) {
+                {
+                    username: $('#username').val(),
+                    password: $('#password').val()
+                }
+            ).then(response => {
+                console.log(response);
+                var data = JSON.parse(response.bodyText);
                 if (data['success']) {
                     this.setKey(data['key']);
                     this.setId(data['id']);
@@ -29,7 +33,7 @@ export default {
                 } else {
                     console.log(data);
                 }
-            }.bind(this));
+            });
         },
         ...mapMutations([
             'setKey',

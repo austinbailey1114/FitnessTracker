@@ -30,29 +30,30 @@ export default {
         }
     },
     created: function() {
-        $.get(
+        this.$http.get(
             'http://localhost:8080/api/bodyweights/' + this.getId(),
-        ).done(function(data) {
+        ).then(response => {
+            var data = JSON.parse(response.bodyText);
             this.bodyweights = data;
-        }.bind(this));
+        });
     },
     methods: {
         postBodyweight: function() {
-            $.post(
+            this.$http.post(
                 'http://localhost:8080/api/bodyweights/',
                 {
                     weight: $('#new-bodyweight-input').val(),
                     key: this.getKey(),
                     user: this.getId()
                 }
-            ).done(function(data) {
+            ).then(response => {
                 var dateString = this.getTonightMidnight();
                 var newBodyweight = {
                     date: dateString,
                     weight: $('#new-bodyweight-input').val()
                 };
                 this.bodyweights.push(newBodyweight);
-            }.bind(this));
+            });
         },
         getTonightMidnight: function() {
             var d = new Date();

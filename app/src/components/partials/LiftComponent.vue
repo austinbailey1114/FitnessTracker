@@ -46,22 +46,25 @@ export default {
         }
     },
     created: function() {
-        $.get(
-            'http://localhost:8080/api/lifts/' + this.getId(),
-        ).done(function(data) {
+        this.$http.get(
+            'http://localhost:8080/api/lifts/' + this.getId()
+        ).then(response => {
+            var data = JSON.parse(response.bodyText);
             this.lifts = data;
-        }.bind(this));
+        });
 
-        $.get(
-            'http://localhost:8080/api/lifttypes/' + this.getId(),
-        ).done(function(data) {
+        this.$http.get(
+            'http://localhost:8080/api/lifttypes/' + this.getId()
+        ).then(response => {
+            var data = JSON.parse(response.bodyText);
             this.lifttypes = data;
             this.selectedLiftChartType = data[0].name;
-        }.bind(this));
+        });
     },
     methods: {
         postLift: function(event) {
-            $.post(
+            
+            this.$http.post(
                 'http://localhost:8080/api/lifts/',
                 {
                     weight: $('#lift-input-weight').val(),
@@ -72,7 +75,7 @@ export default {
                     key: this.getKey(),
                     user: this.getId()
                 }
-            ).done(function(data) {
+            ).then(response => {
                 var dateString = this.getTonightMidnight();
                 var newLift = {
                     weight: $('#lift-input-weight').val(),
@@ -81,7 +84,7 @@ export default {
                     date: dateString
                 };
                 this.lifts.push(newLift);
-            }.bind(this));
+            });
         },
         getTonightMidnight: function() {
             var d = new Date();

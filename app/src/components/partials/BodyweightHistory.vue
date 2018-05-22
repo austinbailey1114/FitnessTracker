@@ -40,18 +40,19 @@ export default {
     },
     methods: {
         deleteBodyweight: function(bodyweight) {
-            $.ajax({
-                url: 'http://localhost:8080/api/bodyweights/',
-                data: {
-                    id: bodyweight.id,
-                    key: this.getKey(),
-                    user: this.getId()
-                },
-                type: 'DELETE'
-            }).done(function(data) {
+            this.$http.delete(
+                'http://localhost:8080/api/bodyweights/',
+                {
+                    body: {
+                        id: bodyweight.id,
+                        key: this.getKey(),
+                        user: this.getId()
+                    }
+                }
+            ).then(response => {
                 var index = this.bodyweights.indexOf(bodyweight);
                 this.bodyweights.splice(index, 1);
-            }.bind(this));
+            });
         },
         ...mapGetters([
             'getKey',
