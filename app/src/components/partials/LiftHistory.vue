@@ -36,7 +36,6 @@
 
 <script>
 import Graph from '@/components/partials/Chart.vue'
-import $ from 'jquery'
 import { mapGetters } from 'vuex'
 
 export default {

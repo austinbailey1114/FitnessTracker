@@ -7,7 +7,7 @@
             <form class="bodyweight-form" method="post">
                 <div class="bodyweight-field">
                     <p class="bodyweight-field-prompt">Weight</p>
-                    <input id="new-bodyweight-input" class="numeric-input bodyweight-input" type="text" name="weight" placeholder="pounds">
+                    <input v-model="newWeight" class="numeric-input bodyweight-input" type="text" name="weight" placeholder="pounds">
                 </div>
                 <button @click.prevent="postBodyweight()" class="form-submit form-submit-bodyweight">Update</button>
             </form>
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import { mapGetters } from 'vuex'
 import BodyweightHistory from '@/components/partials/BodyweightHistory'
 
@@ -27,6 +26,7 @@ export default {
     data: function() {
         return {
             bodyweights: [],
+            newWeight: null,
         }
     },
     created: function() {
@@ -42,7 +42,7 @@ export default {
             this.$http.post(
                 'http://localhost:8080/api/bodyweights/',
                 {
-                    weight: $('#new-bodyweight-input').val(),
+                    weight: this.newWeight,
                     key: this.getKey(),
                     user: this.getId()
                 }
@@ -50,7 +50,7 @@ export default {
                 var dateString = this.getTonightMidnight();
                 var newBodyweight = {
                     date: dateString,
-                    weight: $('#new-bodyweight-input').val()
+                    weight: this.newWeight,
                 };
                 this.bodyweights.push(newBodyweight);
             });

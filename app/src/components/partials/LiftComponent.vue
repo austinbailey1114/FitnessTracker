@@ -5,12 +5,21 @@
         </div>
         <div class="new-lift inline container-child">
             <form>
-                <lift-field id="lift-input-weight" name="weight" prompt="Weight"></lift-field>
-                <lift-field id="lift-input-reps" name="reps" prompt="Reps"></lift-field>
-                <lift-field id="date-input" name="date" prompt="Date"></lift-field>
+                <div class="lift-field">
+                    <p class="lift-prompt">Weight</p>
+                    <input v-model="liftFormData.weight" class="numeric-input lift-input" type="text" placeholder="pounds" autocomplete="off">
+                </div>
+                <div class="lift-field">
+                    <p class="lift-prompt">Reps</p>
+                    <input v-model="liftFormData.reps" class="numeric-input lift-input" type="text" placeholder="pounds" autocomplete="off">
+                </div>
+                <div class="lift-field">
+                    <p class="lift-prompt">Date</p>
+                    <input v-model="liftFormData.date" class="numeric-input lift-input" type="text" placeholder="pounds" autocomplete="off">
+                </div>
                 <div class="lift-field">
                     <p class="lift-prompt inline">Type</p>
-                    <select id="select-lift-type" class="select select-wide" name='liftType'>
+                    <select v-model="liftFormData.type" class="select select-wide" name='liftType'>
                         <option value="select">-- Select Type--</option>
                         <option value="new">New</option>
                         <option v-for="type in lifttypes" :val="type.name">{{ type.name }}</option>
@@ -29,7 +38,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import { mapGetters } from 'vuex'
 import LiftField from '@/components/partials/LiftField'
 import LiftHistory from '@/components/partials/LiftHistory'
@@ -43,6 +51,13 @@ export default {
         return {
             lifts: [],
             lifttypes:[],
+            liftFormData: {
+                weight: null,
+                reps: null,
+                date: null,
+                type: null,
+                liftType: null,
+            }
         }
     },
     created: function() {
@@ -59,28 +74,24 @@ export default {
             var data = JSON.parse(response.bodyText);
             this.lifttypes = data;
             this.selectedLiftChartType = data[0].name;
+            this.liftFormData.type = 'select';
         });
     },
     methods: {
         postLift: function(event) {
-            
             this.$http.post(
                 'http://localhost:8080/api/lifts/',
                 {
-                    weight: $('#lift-input-weight').val(),
-                    reps: $('#lift-input-reps').val(),
-                    date: $('#date-input').val(),
-                    type: $('#select-lift-type').val(),
-                    liftType: $('#select-lift-type').val(),
                     key: this.getKey(),
-                    user: this.getId()
+                    user: this.getId(),
+                    ...this.liftFormData
                 }
             ).then(response => {
                 var dateString = this.getTonightMidnight();
                 var newLift = {
-                    weight: $('#lift-input-weight').val(),
-                    reps: $('#lift-input-reps').val(),
-                    type: $('#select-lift-type').val(),
+                    weight: this.liftFormData.weight,
+                    reps: this.liftFormData.reps,
+                    type: this.liftFormData.type,
                     date: dateString
                 };
                 this.lifts.push(newLift);

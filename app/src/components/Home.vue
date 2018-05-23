@@ -29,7 +29,6 @@
 </template>
 <script>
 import '@/assets/css/index.css'
-import $ from 'jquery'
 import { mapGetters } from 'vuex'
 import LiftComponent from '@/components/partials/LiftComponent'
 import FoodComponent from '@/components/partials/FoodComponent'

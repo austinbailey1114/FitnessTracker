@@ -26,7 +26,6 @@
 <script>
 import Graph from '@/components/partials/Chart.vue'
 import { mapGetters } from 'vuex'
-import $ from 'jquery'
 
 export default {
     props: ['bodyweights'],
