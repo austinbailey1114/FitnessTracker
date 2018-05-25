@@ -15,7 +15,8 @@
                 </div>
                 <div class="lift-field">
                     <p class="lift-prompt">Date</p>
-                    <input v-model="liftFormData.date" class="numeric-input lift-input" type="text" placeholder="pounds" autocomplete="off">
+                    <!-- <input v-model="liftFormData.date" class="numeric-input lift-input" type="text" placeholder="pounds" autocomplete="off"> -->
+                    <masked-input v-model="liftFormData.date" class="numeric-input lift-input" mask="11/11/1111" placeholder="mm/dd/yyyy"></masked-input>
                 </div>
                 <div class="lift-field">
                     <p class="lift-prompt inline">Type</p>
@@ -41,11 +42,13 @@
 import { mapGetters } from 'vuex'
 import LiftField from '@/components/partials/LiftField'
 import LiftHistory from '@/components/partials/LiftHistory'
+import MaskedInput from 'vue-masked-input'
 
 export default {
     components: {
         'lift-history': LiftHistory,
-        'lift-field': LiftField
+        'lift-field': LiftField,
+        'masked-input': MaskedInput
     },
     data: function() {
         return {

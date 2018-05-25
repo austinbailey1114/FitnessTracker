@@ -259,13 +259,14 @@ p {
 }
 
 .food-total-prompt {
+	margin-top: 8px;
 	font-weight: 200;
-	padding: 10px;
+	padding: 8px;
 }
 
 .food-total-value {
 	font-weight: 200;
-	padding: 7px 20px;
+	padding: 5px 20px;
 	font-size: 14px;
 	float: left;
 	color: white;

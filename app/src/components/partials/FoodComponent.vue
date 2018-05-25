@@ -82,10 +82,10 @@ export default {
                 'protein': null,
             },
             barStyle: {
-                height: '30px',
+                height: '25px',
                 zIndex: '3',
                 position: 'absolute',
-                borderRadius: '10px',
+                borderRadius: '7px',
                 minWidth: 'max-content',
             },
             isEditing: false,
@@ -200,16 +200,16 @@ export default {
 
 <style lang="css">
 .food-total-bar {
-    height: 30px;
+    height: 25px;
     width: 80%;
     background-color: #EEEEF2;
-    border-radius: 10px;
+    border-radius: 7px;
     float: left;
 }
 
 .food-total-progress {
     background-color: red;
-    height: 30px;
+    height: 25px;
     float: left;
     position: absolute;
     z-index: 3;
