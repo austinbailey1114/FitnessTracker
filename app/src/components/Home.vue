@@ -14,10 +14,7 @@
                 </div>
             </div>
             <div class="dropdown inline">
-                <a class="link name" href="#">{{ name }}</a>
-                <div class="drop-content">
-                    <a href="#" class="link">Log Out</a>
-                </div>
+                <a @click.prevent="logout" class="link">Sign out</a>
             </div>
         </div>
         <div class="dashboard">
@@ -30,6 +27,7 @@
 <script>
 import '@/assets/css/index.css'
 import { mapGetters } from 'vuex'
+import { mapMutations } from 'vuex'
 import LiftComponent from '@/components/partials/LiftComponent'
 import FoodComponent from '@/components/partials/FoodComponent'
 import BodyweightComponent from '@/components/partials/BodyweightComponent'
@@ -44,6 +42,27 @@ export default {
         return {
             name: 'Austin Bailey',
         }
+    },
+    created: function() {
+        if (!this.getLoggedIn()) {
+            this.$router.push({ path: '/login' })
+        }
+    },
+    methods: {
+        logout() {
+            this.setLoggedIn(false);
+            this.setKey(null);
+            this.setId(null);
+            this.$router.push({ path: '/login' });
+        },
+        ...mapGetters([
+            'getLoggedIn'
+        ]),
+        ...mapMutations([
+            'setKey',
+            'setId',
+            'setLoggedIn',
+        ]),
     }
 }
 </script>

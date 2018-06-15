@@ -32,6 +32,7 @@ export default {
                 if (data['success']) {
                     this.setKey(data['key']);
                     this.setId(data['id']);
+                    this.setLoggedIn(true);
                     this.$router.push({ path: '/' })
                 } else {
                     console.log(data);
@@ -40,7 +41,8 @@ export default {
         },
         ...mapMutations([
             'setKey',
-            'setId'
+            'setId',
+            'setLoggedIn',
         ]),
     }
 }
