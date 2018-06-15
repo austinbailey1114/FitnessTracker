@@ -205,6 +205,10 @@ export default {
     background-color: #EEEEF2;
     border-radius: 7px;
     float: left;
+    box-shadow: 0 0 0 1px rgba(50,50,93,.1),
+                0 2px 5px 0 rgba(50,50,93,.08),
+                0 1px 1.5px 0 rgba(0,0,0,.07),
+                0 1px 2px 0 rgba(0,0,0,.08);
 }
 
 .food-total-progress {
@@ -213,6 +217,10 @@ export default {
     float: left;
     position: absolute;
     z-index: 3;
+    box-shadow: 0 0 0 1px rgba(50,50,93,.1),
+                0 2px 5px 0 rgba(50,50,93,.08),
+                0 1px 1.5px 0 rgba(0,0,0,.07),
+                0 1px 2px 0 rgba(0,0,0,.08);
 }
 
 .food-total-goal {

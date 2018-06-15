@@ -5,7 +5,7 @@
             <a class="link-small inline no-select" @click="showGraph=!showGraph">View as {{ viewAs }}</a>
         </div>
         <div v-show="showGraph">
-            <div class="select-container">
+            <div class="select-container narrow-select">
                 <select v-model="selectedLiftChartType" class="select">
                     <option v-for="type in lifttypes" :val="type.name">{{ type.name }}</option>
                 </select>

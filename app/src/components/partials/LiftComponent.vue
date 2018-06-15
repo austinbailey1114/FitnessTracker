@@ -20,11 +20,13 @@
                 </div>
                 <div class="lift-field">
                     <p class="lift-prompt inline">Type</p>
-                    <select v-model="liftFormData.type" class="select select-wide" name='liftType'>
-                        <option value="select">-- Select Type--</option>
-                        <option value="new">New</option>
-                        <option v-for="type in lifttypes" :val="type.name">{{ type.name }}</option>
-                    </select>
+                    <div class="select-container">
+                        <select v-model="liftFormData.type" class="select" name='liftType'>
+                            <option value="select">-- Select Type--</option>
+                            <option value="new">New</option>
+                            <option v-for="type in lifttypes" :val="type.name">{{ type.name }}</option>
+                        </select>
+                    </div>
                     <div id="newType" style="display: none">
                         <button id='exitNewLift' type=button>
                             <img src="@/assets/images/xicon.png" height='15' width='15' style='margin-right: 5px;'>

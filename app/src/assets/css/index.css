@@ -66,29 +66,23 @@ p {
 	text-align: center;
 }
 
-.select {
-	margin-bottom: 8px;
-	margin-top: 0px;
-	-webkit-appearance: none;
-   	-moz-appearance: none;
-   	appearance: none;
-	padding: 1px 4px;
-	width: 20%;
-	text-align: left;
-	border: 1px solid lightgray;
-}
-
 .form-submit {
 	padding: 2% 8%;
-	background-color: white;
 	background: none;
 	border-radius: 5px;
-	border: 1px solid #EEEEF2;
+	border: none;
 	color: #E74C3C;
-	font-size: 12px;
+	font-size: 13px;
 	float: right;
 	font-weight: 200;
 	cursor: pointer;
+	box-shadow: 0 0 0 1px rgba(50,50,93,.1),
+                0 2px 5px 0 rgba(50,50,93,.08),
+                0 1px 1.5px 0 rgba(0,0,0,.07),
+                0 1px 2px 0 rgba(0,0,0,.08);
+	background-color: #fff;
+	opacity: 0.8;
+	margin-top: 10px;
 }
 
 .form-submit:hover {
@@ -140,9 +134,7 @@ p {
 .top {
     height: 65px;
 	border-bottom: 1px;
-	-webkit-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
-	-moz-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
-	box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
+	box-shadow: 0 7px 14px 0 rgba(50,50,93,.1), 0 3px 6px 0 rgba(0,0,0,.07);
 	background: linear-gradient(to right, #f7f7f9 , white);
 }
 
@@ -193,13 +185,11 @@ p {
 }
 
 .container-child {
-	-webkit-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
-	-moz-box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
-	box-shadow: 0px 0px 25px -9px rgba(54,54,54,1);
 	border-radius: 5px;
 	background-color: white;
 	padding: 0 2.5%;
 	height: 100%;
+	box-shadow: 0 7px 14px 0 rgba(50,50,93,.1), 0 3px 6px 0 rgba(0,0,0,.07);
 }
 
 /* lift div */
@@ -230,13 +220,44 @@ p {
 }
 
 .lift-input {
-	border: 1px solid #EEEEF2;
+	/* border: 1px solid #EEEEF2; */
+	border: none;
 	border-radius: 4px;
 	font-size: 12px;
 	padding: 6px 1.5%;
 	font-weight: 200;
 	text-align: left;
 	width: 97%;
+	box-shadow: 0 0 0 1px rgba(50,50,93,.1),
+                0 2px 5px 0 rgba(50,50,93,.08),
+                0 1px 1.5px 0 rgba(0,0,0,.07),
+                0 1px 2px 0 rgba(0,0,0,.08);
+}
+
+.select-container {
+	border-radius: 4px;
+	box-shadow: 0 0 0 1px rgba(50,50,93,.1),
+                0 2px 5px 0 rgba(50,50,93,.08),
+                0 1px 1.5px 0 rgba(0,0,0,.07),
+                0 1px 2px 0 rgba(0,0,0,.08);
+	padding: 2px;
+	width: 99%;
+	cursor: pointer;
+}
+
+.select {
+	border:none;
+	width: 100%;
+	background-color: white;
+	height: 100%;
+	padding: 0;
+	margin-bottom: 3px;
+}
+
+.narrow-select {
+	width: 33%;
+	margin: auto;
+	margin-bottom: 6px;
 }
 
 .select-wide {
@@ -281,19 +302,16 @@ p {
 	padding: 10px 10px;
 	margin-top: 20px;
 	margin-bottom: 20px;
-	border: 1px solid #DCDCDC;
+	border: none;
 	border-radius: 5px;
 	font-size: 16px;
 	text-align: left;
 	font-weight: 200;
 	width: 90%;
-}
-
-.food-search-button {
-	border: 1px solid #DCDCDC;
-	padding: 12px 4%;
-	margin: 20px;
-	font-size: 14px;
+	box-shadow: 0 0 0 1px rgba(50,50,93,.1),
+                0 2px 5px 0 rgba(50,50,93,.08),
+                0 1px 1.5px 0 rgba(0,0,0,.07),
+                0 1px 2px 0 rgba(0,0,0,.08);
 }
 
 .food-history {
@@ -332,13 +350,17 @@ p {
 }
 
 .bodyweight-input {
-	border: 1px solid #EEEEF2;
+	border: none;
 	border-radius: 4px;
 	font-size: 12px;
 	padding: 6px 1.5%;
 	font-weight: 200;
 	text-align: left;
 	width: 97%;
+	box-shadow: 0 0 0 1px rgba(50,50,93,.1),
+                0 2px 5px 0 rgba(50,50,93,.08),
+                0 1px 1.5px 0 rgba(0,0,0,.07),
+                0 1px 2px 0 rgba(0,0,0,.08);
 }
 
 .form-submit-bodyweight {
